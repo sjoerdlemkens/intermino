@@ -1,4 +1,4 @@
-enum HomePageTab {
+enum HomePageView {
   fast,
   settings,
 }

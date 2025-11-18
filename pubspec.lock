@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  bloc:
+    dependency: "direct main"
+    description:
+      name: bloc
+      sha256: a2cebb899f91d36eeeaa55c7b20b5915db5a9df1b8fd4a3c9c825e22e474537d
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.1.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -41,14 +49,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.19.0"
-  cupertino_icons:
-    dependency: "direct main"
-    description:
-      name: cupertino_icons
-      sha256: ba631d1c7f7bef6b729a622b7b752645a2d076dba9976925b8f25725a30e1ee6
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.8"
   fake_async:
     dependency: transitive
     description:
@@ -62,6 +62,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_bloc:
+    dependency: "direct main"
+    description:
+      name: flutter_bloc
+      sha256: cf51747952201a455a1c840f8171d273be009b932c75093020f9af64f2123e38
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.1.1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -124,13 +132,21 @@ packages:
     source: hosted
     version: "0.11.1"
   meta:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: meta
       sha256: bdb68674043280c3428e9ec998512fb681678676b3c54e773629ffe74419f8c7
       url: "https://pub.dev"
     source: hosted
     version: "1.15.0"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      sha256: "03bac4c528c64c95c722ec99280375a6f2fc708eec17c7b3f07253b626cd2a20"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   path:
     dependency: transitive
     description:
@@ -139,6 +155,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.0"
+  provider:
+    dependency: transitive
+    description:
+      name: provider
+      sha256: "4e82183fa20e5ca25703ead7e05de9e4cceed1fbd1eadc1ac3cb6f565a09f272"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.5+1"
   sky_engine:
     dependency: transitive
     description: flutter
