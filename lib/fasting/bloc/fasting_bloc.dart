@@ -1,11 +1,17 @@
-import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:bloc/bloc.dart';
+import 'package:fasting_repository/fasting_repository.dart';
 
 part 'fasting_event.dart';
 part 'fasting_state.dart';
 
 class FastingBloc extends Bloc<FastingEvent, FastingState> {
-  FastingBloc() : super(FastingInitial()) {
+  final FastingRepository _fastingRepo;
+
+  FastingBloc({
+    required FastingRepository fastingRepository,
+  })  : _fastingRepo = fastingRepository,
+        super(FastingInitial()) {
     on<FastStarted>(_onFastStarted);
     on<FastEnded>(_onFastEnded);
   }
@@ -15,6 +21,8 @@ class FastingBloc extends Bloc<FastingEvent, FastingState> {
   }
 
   void _onFastEnded(FastEnded event, Emitter<FastingState> emit) {
+    // TODO: Create logic to save fast data using _fastingRepo
+
     emit(FastingInitial());
   }
 }
