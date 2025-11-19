@@ -35,7 +35,7 @@ class FastingInProgressView extends StatelessWidget {
               // Fasting Info
               Expanded(
                 child: Center(
-                  child: FastingInfo(),
+                  child: FastingInfo(state.elapsed),
                 ),
               ),
 
