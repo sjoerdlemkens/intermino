@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fasting_app/fasting/fasting.dart';
 
 class FastingStartEndRow extends StatelessWidget {
-  const FastingStartEndRow({super.key});
+  final DateTime started;
+
+  const FastingStartEndRow({super.key, required this.started});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,7 @@ class FastingStartEndRow extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "Today, 6:28PM",
+                    TimeFormatter.formatStartTime(started),
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,

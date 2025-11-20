@@ -51,7 +51,7 @@ class FastingInProgressView extends StatelessWidget {
               const SizedBox(height: 24),
 
               // Start and End Time Row
-              FastingStartEndRow(),
+              FastingStartEndRow(started: state.started),
             ],
           ),
         ),

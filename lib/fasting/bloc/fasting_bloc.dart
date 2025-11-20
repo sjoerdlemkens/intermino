@@ -29,11 +29,15 @@ class FastingBloc extends Bloc<FastingEvent, FastingState> {
     _tickerSubscription?.cancel();
     _tickerSubscription = _ticker.tick().listen(
           (seconds) => add(
-            _TimerTicked(duration: Duration(seconds: seconds)),
+            _TimerTicked(
+              duration: Duration(seconds: seconds),
+            ),
           ),
         );
 
-    emit(const FastingInProgress(elapsed: Duration.zero));
+    emit(FastingInProgress(
+      started: DateTime.now(),
+    ));
   }
 
   void _onFastEnded(FastEnded event, Emitter<FastingState> emit) {
@@ -43,7 +47,14 @@ class FastingBloc extends Bloc<FastingEvent, FastingState> {
   }
 
   void _onTimerTicked(_TimerTicked event, Emitter<FastingState> emit) {
-    emit(FastingInProgress(elapsed: event.duration));
+    if (state is! FastingInProgress) return;
+
+    final currentState = state as FastingInProgress;
+    final updatedState = currentState.copyWith(
+      elapsed: event.duration,
+    );
+
+    emit(updatedState);
   }
 
   @override

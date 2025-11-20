@@ -13,9 +13,23 @@ final class FastingInitial extends FastingState {
 }
 
 final class FastingInProgress extends FastingState {
+  final DateTime started;
   final Duration elapsed;
 
-  const FastingInProgress({this.elapsed = Duration.zero});
+  const FastingInProgress({
+    required this.started,
+    this.elapsed = Duration.zero,
+  });
+
+  FastingInProgress copyWith({
+    DateTime? started,
+    Duration? elapsed,
+  }) {
+    return FastingInProgress(
+      started: started ?? this.started,
+      elapsed: elapsed ?? this.elapsed,
+    );
+  }
 
   @override
   List<Object?> get props => [elapsed];

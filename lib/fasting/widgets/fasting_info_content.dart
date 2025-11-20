@@ -11,7 +11,7 @@ class FastingInfoContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final elapsedFormatted = formatDuration(elapsed);
+    final elapsedFormatted = TimeFormatter.formatDuration(elapsed);
     
     return Column(
       mainAxisSize: MainAxisSize.min,
