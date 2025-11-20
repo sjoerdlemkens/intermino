@@ -4,20 +4,24 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fasting_repository/fasting_repository.dart';
 import 'package:fasting_app/fasting/fasting.dart';
+import 'package:settings_repository/settings_repository.dart';
 
 part 'fasting_event.dart';
 part 'fasting_state.dart';
 
 class FastingBloc extends Bloc<FastingEvent, FastingState> {
+  final SettingsRepository _settingsRepo;
   final FastingRepository _fastingRepo;
 
   final Ticker _ticker;
   StreamSubscription<int>? _tickerSubscription;
 
   FastingBloc({
+    required SettingsRepository settingsRepo,
     required FastingRepository fastingRepo,
     Ticker ticker = const Ticker(),
-  })  : _fastingRepo = fastingRepo,
+  })  : _settingsRepo = settingsRepo,
+        _fastingRepo = fastingRepo,
         _ticker = ticker,
         super(FastingInitial()) {
     on<FastStarted>(_onFastStarted);

@@ -1,1 +1,1 @@
-class SettingsRepsitory {}
+class SettingsRepository {}
