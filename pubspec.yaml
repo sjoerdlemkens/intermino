@@ -38,11 +38,11 @@ dependencies:
   local_fasting_api:
     path: packages/infrastructure/local_fasting_api
   fasting_api:
-    path: packages/data_providers/fasting_api
+    path: packages/infrastructure/fasting_api
   local_settings_api:
     path: packages/infrastructure/local_settings_api
   settings_api:
-    path: packages/data_providers/settings_api
+    path: packages/infrastructure/settings_api
   settings_repository:
     path: packages/domain/repositories/settings_repository
   fasting_repository:

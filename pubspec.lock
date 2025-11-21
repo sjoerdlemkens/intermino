@@ -68,7 +68,14 @@ packages:
   fasting_api:
     dependency: "direct main"
     description:
-      path: "packages/data_providers/fasting_api"
+      path: "packages/infrastructure/fasting_api"
+      relative: true
+    source: path
+    version: "1.0.0"
+  fasting_entities:
+    dependency: transitive
+    description:
+      path: "packages/domain/fasting_entities"
       relative: true
     source: path
     version: "1.0.0"
@@ -263,7 +270,7 @@ packages:
   settings_api:
     dependency: "direct main"
     description:
-      path: "packages/data_providers/settings_api"
+      path: "packages/infrastructure/settings_api"
       relative: true
     source: path
     version: "1.0.0"
@@ -416,5 +423,5 @@ packages:
     source: hosted
     version: "1.1.0"
 sdks:
-  dart: ">=3.9.0 <4.0.0"
+  dart: ">=3.10.1 <4.0.0"
   flutter: ">=3.35.0"
