@@ -44,9 +44,9 @@ dependencies:
   settings_api:
     path: packages/data_providers/settings_api
   settings_repository:
-    path: packages/repositories/settings_repository
+    path: packages/domain/repositories/settings_repository
   fasting_repository:
-    path: packages/repositories/fasting_repository
+    path: packages/domain/repositories/fasting_repository
 
 dev_dependencies:
   flutter_test:

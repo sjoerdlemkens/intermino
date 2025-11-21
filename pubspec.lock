@@ -75,7 +75,7 @@ packages:
   fasting_repository:
     dependency: "direct main"
     description:
-      path: "packages/repositories/fasting_repository"
+      path: "packages/domain/repositories/fasting_repository"
       relative: true
     source: path
     version: "1.0.0"
@@ -270,7 +270,7 @@ packages:
   settings_repository:
     dependency: "direct main"
     description:
-      path: "packages/repositories/settings_repository"
+      path: "packages/domain/repositories/settings_repository"
       relative: true
     source: path
     version: "1.0.0"
