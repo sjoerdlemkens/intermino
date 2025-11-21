@@ -34,6 +34,10 @@ dependencies:
   equatable: ^2.0.7
   bloc: ^9.1.0
   flutter_bloc: ^9.1.1
+  local_fasting_api:
+    path: packages/local_fasting_api
+  fasting_api:
+    path: packages/fasting_api
   settings_repository:
     path: packages/settings_repository
   fasting_repository:

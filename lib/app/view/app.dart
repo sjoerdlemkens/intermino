@@ -4,20 +4,20 @@ import 'package:fasting_app/app/app.dart';
 import 'package:fasting_repository/fasting_repository.dart';
 import 'package:settings_repository/settings_repository.dart';
 
-class App extends StatefulWidget {
-  const App({super.key});
+class App extends StatelessWidget {
+  final FastingRepository Function() createFastingRepo;
 
-  @override
-  State<App> createState() => _AppState();
-}
+  const App({
+    super.key,
+    required this.createFastingRepo,
+  });
 
-class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<FastingRepository>(
-          create: (context) => FastingRepository(),
+          create: (context) => createFastingRepo(),
         ),
         RepositoryProvider<SettingsRepository>(
           create: (context) => SettingsRepository(),

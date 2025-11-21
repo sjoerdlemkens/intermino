@@ -1,5 +1,5 @@
-name: fasting_repository
-description: A repository that handles fasting related requests.
+name: local_fasting_api
+description: An implementation of the FastingApi that uses Drift/sqllite.
 version: 1.0.0
 publish_to: none
 
@@ -7,7 +7,7 @@ environment:
   sdk: ^3.6.1
 
 dependencies:
-  fasting_api:
+ fasting_api:
     path: ../fasting_api
 
 dev_dependencies:
