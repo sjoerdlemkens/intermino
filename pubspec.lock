@@ -68,14 +68,14 @@ packages:
   fasting_api:
     dependency: "direct main"
     description:
-      path: "packages/fasting_api"
+      path: "packages/data_providers/fasting_api"
       relative: true
     source: path
     version: "1.0.0"
   fasting_repository:
     dependency: "direct main"
     description:
-      path: "packages/fasting_repository"
+      path: "packages/repositories/fasting_repository"
       relative: true
     source: path
     version: "1.0.0"
@@ -140,14 +140,14 @@ packages:
   local_fasting_api:
     dependency: "direct main"
     description:
-      path: "packages/local_fasting_api"
+      path: "packages/infrastructure/local_fasting_api"
       relative: true
     source: path
     version: "1.0.0"
   local_settings_api:
     dependency: "direct main"
     description:
-      path: "packages/local_settings_api"
+      path: "packages/infrastructure/local_settings_api"
       relative: true
     source: path
     version: "1.0.0"
@@ -202,14 +202,14 @@ packages:
   settings_api:
     dependency: "direct main"
     description:
-      path: "packages/settings_api"
+      path: "packages/data_providers/settings_api"
       relative: true
     source: path
     version: "1.0.0"
   settings_repository:
     dependency: "direct main"
     description:
-      path: "packages/settings_repository"
+      path: "packages/repositories/settings_repository"
       relative: true
     source: path
     version: "1.0.0"

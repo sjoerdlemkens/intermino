@@ -8,7 +8,7 @@ environment:
 
 dependencies:
  settings_api:
-    path: ../settings_api
+    path: ../../data_providers/settings_api
 
 dev_dependencies:
   lints: ^5.0.0

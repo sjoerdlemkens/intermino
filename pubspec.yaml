@@ -35,17 +35,17 @@ dependencies:
   bloc: ^9.1.0
   flutter_bloc: ^9.1.1
   local_fasting_api:
-    path: packages/local_fasting_api
+    path: packages/infrastructure/local_fasting_api
   fasting_api:
-    path: packages/fasting_api
+    path: packages/data_providers/fasting_api
   local_settings_api:
-    path: packages/local_settings_api
+    path: packages/infrastructure/local_settings_api
   settings_api:
-    path: packages/settings_api
+    path: packages/data_providers/settings_api
   settings_repository:
-    path: packages/settings_repository
+    path: packages/repositories/settings_repository
   fasting_repository:
-    path: packages/fasting_repository
+    path: packages/repositories/fasting_repository
 
 dev_dependencies:
   flutter_test:
