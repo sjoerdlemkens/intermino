@@ -4,12 +4,15 @@ import 'package:fasting_repository/fasting_repository.dart';
 import 'package:local_fasting_api/local_fasting_api.dart';
 import 'package:local_settings_api/local_settings_api.dart';
 import 'package:settings_repository/settings_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final fastingApi = LocalFastingApi();
-  final settingsApi = LocalSettingsApi();
+  final settingsApi = LocalSettingsApi(
+    sharedPrefs: await SharedPreferences.getInstance(),
+  );
 
   runApp(
     App(

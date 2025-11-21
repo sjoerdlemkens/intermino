@@ -7,6 +7,7 @@ environment:
   sdk: ^3.6.1
 
 dependencies:
+ shared_preferences: ^2.5.3
  settings_api:
     path: ../../data_providers/settings_api
 
