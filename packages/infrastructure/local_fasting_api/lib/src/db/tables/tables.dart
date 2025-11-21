@@ -1,0 +1,1 @@
+export 'fasts_table.dart';

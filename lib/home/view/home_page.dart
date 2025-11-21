@@ -17,6 +17,7 @@ class HomePage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<SettingsBloc>(
+          lazy: false,
           create: (context) => SettingsBloc(
             settingsRepo: settingsRepo,
           )..add(LoadSettings()),

@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fasting_app/fasting/fasting.dart';
-import 'package:fasting_repository/fasting_repository.dart';
+import 'package:fasting_repository/fasting_repository.dart'; // FastingWindow comes from here
 import 'package:settings_repository/settings_repository.dart';
 
 part 'fasting_event.dart';
@@ -29,7 +29,20 @@ class FastingBloc extends Bloc<FastingEvent, FastingState> {
     on<_TimerTicked>(_onTimerTicked);
   }
 
-  void _onFastStarted(FastStarted event, Emitter<FastingState> emit) {
+  void _onFastStarted(FastStarted event, Emitter<FastingState> emit) async {
+    final fast = await _fastingRepo.createFast(
+      window: FastingWindow.eighteenSix,
+      started: DateTime.now(),
+    );
+
+    _startTicker();
+
+    emit(FastingInProgress(
+      started: fast.start,
+    ));
+  }
+
+  void _startTicker() {
     _tickerSubscription?.cancel();
     _tickerSubscription = _ticker.tick().listen(
           (seconds) => add(
@@ -38,10 +51,6 @@ class FastingBloc extends Bloc<FastingEvent, FastingState> {
             ),
           ),
         );
-
-    emit(FastingInProgress(
-      started: DateTime.now(),
-    ));
   }
 
   void _onFastEnded(FastEnded event, Emitter<FastingState> emit) {
