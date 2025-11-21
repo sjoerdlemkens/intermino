@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
           create: (context) => FastingBloc(
             settingsRepo: settingsRepo,
             fastingRepo: fastingRepo,
-          ),
+          )..add(LoadActiveFast()),
         ),
       ],
       child: HomeView(),

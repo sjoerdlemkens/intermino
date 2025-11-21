@@ -24,9 +24,35 @@ class FastingBloc extends Bloc<FastingEvent, FastingState> {
         _fastingRepo = fastingRepo,
         _ticker = ticker,
         super(FastingInitial()) {
+    on<LoadActiveFast>(_onLoadActiveFast);
     on<FastStarted>(_onFastStarted);
     on<FastEnded>(_onFastEnded);
     on<_TimerTicked>(_onTimerTicked);
+  }
+
+  void _onLoadActiveFast(
+    LoadActiveFast event,
+    Emitter<FastingState> emit,
+  ) async {
+    emit(const FastingLoading());
+    try {
+      final activeFast = await _fastingRepo.getActiveFast();
+
+      if (activeFast != null) {
+        final elapsed = DateTime.now().difference(activeFast.start);
+        _startTicker(startFrom: elapsed);
+
+        emit(FastingInProgress(
+          started: activeFast.start,
+          elapsed: elapsed,
+        ));
+      } else {
+        emit(const FastingInitial());
+      }
+    } catch (e) {
+      // TODO:  Log the error
+      emit(const FastingInitial());
+    }
   }
 
   void _onFastStarted(FastStarted event, Emitter<FastingState> emit) async {
@@ -42,12 +68,12 @@ class FastingBloc extends Bloc<FastingEvent, FastingState> {
     ));
   }
 
-  void _startTicker() {
+  void _startTicker({Duration startFrom = Duration.zero}) {
     _tickerSubscription?.cancel();
     _tickerSubscription = _ticker.tick().listen(
           (seconds) => add(
             _TimerTicked(
-              duration: Duration(seconds: seconds),
+              duration: startFrom + Duration(seconds: seconds),
             ),
           ),
         );

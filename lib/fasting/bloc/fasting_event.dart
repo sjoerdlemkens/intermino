@@ -9,6 +9,8 @@ class FastStarted extends FastingEvent {}
 
 class FastEnded extends FastingEvent {}
 
+class LoadActiveFast extends FastingEvent {}
+
 class _TimerTicked extends FastingEvent {
   final Duration duration;
 

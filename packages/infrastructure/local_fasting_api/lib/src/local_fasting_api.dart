@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart';
 import 'package:local_fasting_api/src/db/core/database.dart';
 
 class LocalFastingApi {
@@ -22,5 +23,13 @@ class LocalFastingApi {
     }
 
     return fast;
+  }
+
+  Future<Fast?> getActiveFast() async {
+    return await (_db.select(_db.fasts)
+          ..where((tbl) => tbl.end.isNull())
+          ..orderBy([(tbl) => OrderingTerm(expression: tbl.start, mode: OrderingMode.desc)]) // Most recent first
+          ..limit(1))
+        .getSingleOrNull();
   }
 }

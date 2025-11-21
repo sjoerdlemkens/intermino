@@ -12,6 +12,10 @@ final class FastingInitial extends FastingState {
   const FastingInitial();
 }
 
+final class FastingLoading extends FastingState {
+  const FastingLoading();
+}
+
 final class FastingInProgress extends FastingState {
   final DateTime started;
   final Duration elapsed;

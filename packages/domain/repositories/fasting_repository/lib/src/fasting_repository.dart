@@ -25,4 +25,19 @@ class FastingRepository {
 
     return mappedFast;
   }
+
+  Future<Fast?> getActiveFast() async {
+    final activeFast = await _fastingApi.getActiveFast();
+    if (activeFast == null) {
+      return null;
+    }
+
+    final mappedFast = Fast(
+      id: activeFast.id,
+      start: activeFast.start,
+      window: FastingWindow.eighteenSix, // map fasting window appropriately
+    );
+
+    return mappedFast;
+  }
 }

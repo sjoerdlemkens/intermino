@@ -10,6 +10,9 @@ class FastingView extends StatelessWidget {
     return BlocBuilder<FastingBloc, FastingState>(
       builder: (context, state) => switch (state) {
         FastingInitial() => FastingInitialView(),
+        FastingLoading() => Center(
+            child: CircularProgressIndicator(),
+          ),
         FastingInProgress() => FastingInProgressView(state),
       },
     );
