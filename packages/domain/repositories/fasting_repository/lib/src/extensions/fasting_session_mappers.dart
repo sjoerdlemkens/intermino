@@ -7,6 +7,6 @@ extension FastingSessionMappers on api.FastingSession {
         id: id,
         start: start,
         end: end,
-        window: FastingWindowMappers.fromInt(window), 
+        window: window == null ? null : FastingWindowMappers.fromInt(window!),
       );
 }

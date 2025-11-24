@@ -3,8 +3,13 @@ import 'package:fasting_app/fasting/fasting.dart';
 
 class FastingStartEndRow extends StatelessWidget {
   final DateTime started;
+  final DateTime ending;
 
-  const FastingStartEndRow({super.key, required this.started});
+  const FastingStartEndRow({
+    super.key,
+    required this.started,
+    required this.ending,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +65,7 @@ class FastingStartEndRow extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                "Tomorrow, 10:28AM",
+                TimeFormatter.formatStartTime(ending),
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,

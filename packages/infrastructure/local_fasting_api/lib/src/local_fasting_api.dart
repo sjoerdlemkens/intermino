@@ -5,12 +5,10 @@ class LocalFastingApi {
   final AppDatabase _db = AppDatabase();
 
   Future<FastingSession> createFastingSession({
-    required int window,
     required DateTime started,
   }) async {
     final id = await _db.into(_db.fastingSessions).insert(
           FastingSessionsCompanion.insert(
-            window: window,
             start: started,
           ),
         );

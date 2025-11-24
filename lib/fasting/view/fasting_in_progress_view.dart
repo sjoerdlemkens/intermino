@@ -14,6 +14,8 @@ class FastingInProgressView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final session = state.session;
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -35,7 +37,7 @@ class FastingInProgressView extends StatelessWidget {
               // Fasting Info
               Expanded(
                 child: Center(
-                  child: FastingInfo(state.elapsed),
+                  child: FastingInfo(session),
                 ),
               ),
 
@@ -51,7 +53,10 @@ class FastingInProgressView extends StatelessWidget {
               const SizedBox(height: 24),
 
               // Start and End Time Row
-              FastingStartEndRow(started: state.started),
+              FastingStartEndRow(
+                started: session.start,
+                ending: session.endsOn,
+              ),
             ],
           ),
         ),

@@ -3,10 +3,12 @@ import 'package:fasting_app/fasting/fasting.dart';
 
 class FastingInfoContent extends StatelessWidget {
   final Duration elapsed;
+  final Duration remaining;
 
   const FastingInfoContent({
     super.key,
     required this.elapsed,
+    required this.remaining,
   });
 
   @override
@@ -42,7 +44,7 @@ class FastingInfoContent extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Text(
-          "-- : -- : --",
+          TimeFormatter.formatDuration(remaining),
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,

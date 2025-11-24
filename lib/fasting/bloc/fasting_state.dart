@@ -1,11 +1,8 @@
 part of 'fasting_bloc.dart';
 
 @immutable
-sealed class FastingState extends Equatable {
+sealed class FastingState {
   const FastingState();
-
-  @override
-  List<Object?> get props => [];
 }
 
 final class FastingInitial extends FastingState {
@@ -17,28 +14,17 @@ final class FastingLoading extends FastingState {
 }
 
 final class FastingInProgress extends FastingState {
-  final FastingWindow window;
-  final DateTime started;
-  final Duration elapsed;
+  final FastingSession session;
 
   const FastingInProgress({
-    required this.window,
-    required this.started,
-    this.elapsed = Duration.zero,
+    required this.session,
   });
 
   FastingInProgress copyWith({
-    DateTime? started,
-    Duration? elapsed,
-    FastingWindow? window,
+    FastingSession? session,
   }) {
     return FastingInProgress(
-      window: window ?? this.window,
-      started: started ?? this.started,
-      elapsed: elapsed ?? this.elapsed,
+      session: session ?? this.session,
     );
   }
-
-  @override
-  List<Object?> get props => [elapsed];
 }

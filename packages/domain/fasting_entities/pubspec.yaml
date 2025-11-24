@@ -1,14 +1,13 @@
 name: fasting_entities
 description: A starting point for Dart libraries or applications.
 version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+publish_to: none
 
 environment:
   sdk: ^3.10.1
 
-# Add regular dependencies here.
 dependencies:
-  # path: ^1.9.0
+  equatable: ^2.0.7
 
 dev_dependencies:
   lints: ^6.0.0

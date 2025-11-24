@@ -36,17 +36,13 @@ class FastingBloc extends Bloc<FastingEvent, FastingState> {
   ) async {
     emit(const FastingLoading());
     try {
-      final activeFast = await _fastingRepo.getActiveFastingSession();
+      final activeFastingSession = await _fastingRepo.getActiveFastingSession();
 
-      if (activeFast != null) {
-        final elapsed = DateTime.now().difference(activeFast.start);
+      if (activeFastingSession != null) {
+        final elapsed = DateTime.now().difference(activeFastingSession.start);
         _startTicker(startFrom: elapsed);
 
-        emit(FastingInProgress(
-          window: activeFast.window,
-          started: activeFast.start,
-          elapsed: elapsed,
-        ));
+        emit(FastingInProgress(session: activeFastingSession));
       } else {
         emit(const FastingInitial());
       }
@@ -57,20 +53,23 @@ class FastingBloc extends Bloc<FastingEvent, FastingState> {
   }
 
   void _onFastStarted(FastStarted event, Emitter<FastingState> emit) async {
-  // TODO: Retrieve the fasting window from user settings
-  final fastingWindow = FastingWindow.eighteenSix;
+    // TODO: Retrieve the fasting window from user settings
+    final fastingWindow = FastingWindow.eighteenSix;
 
-    final fast = await _fastingRepo.createFastingSession(
-      window: FastingWindow.eighteenSix,
+    final fastingSession = await _fastingRepo.createFastingSession(
       started: DateTime.now(),
+    );
+
+    // Copy fasting session with window from settinsg
+    final composedFastingSession = fastingSession.copyWith(
+      window: fastingWindow,
     );
 
     _startTicker();
 
-    emit(FastingInProgress(
-      window: fastingWindow,
-      started: fast.start,
-    ));
+    emit(
+      FastingInProgress(session: composedFastingSession),
+    );
   }
 
   void _startTicker({Duration startFrom = Duration.zero}) {
@@ -94,11 +93,10 @@ class FastingBloc extends Bloc<FastingEvent, FastingState> {
     if (state is! FastingInProgress) return;
 
     final currentState = state as FastingInProgress;
-    final updatedState = currentState.copyWith(
-      elapsed: event.duration,
-    );
+    // Create a state copy to trigger UI updates on each tick
+    final newState = currentState.copyWith();
 
-    emit(updatedState);
+    emit(newState);
   }
 
   @override

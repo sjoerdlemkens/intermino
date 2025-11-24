@@ -9,11 +9,9 @@ class FastingRepository {
   }) : _fastingApi = fastingApi;
 
   Future<FastingSession> createFastingSession({
-    required FastingWindow window,
     required DateTime started,
   }) async {
     final createdFast = await _fastingApi.createFastingSession(
-      window: window.toInt(),
       started: started,
     );
 
