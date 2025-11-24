@@ -30,14 +30,64 @@ class LocalFastingApi {
     return fastingSession;
   }
 
-  Future<FastingSession?> getActiveFastingSession() async {
-    return await (_db.select(_db.fastingSessions)
-          ..where((table) => table.end.isNull())
-          ..orderBy([
-            (table) =>
-                OrderingTerm(expression: table.start, mode: OrderingMode.desc)
-          ]) // Most recent first
-          ..limit(1))
-        .getSingleOrNull();
+  Future<List<FastingSession>> getFastingSessions({
+    bool? isActive,
+    int? limit,
+    DateTime? startAfter,
+    DateTime? startBefore,
+  }) async {
+    final query = _db.select(_db.fastingSessions);
+
+    // Apply filters
+    if (isActive != null) {
+      if (isActive) {
+        query.where((table) => table.end.isNull());
+      } else {
+        query.where((table) => table.end.isNotNull());
+      }
+    }
+
+    if (startAfter != null) {
+      query.where((table) => table.start.isBiggerThanValue(startAfter));
+    }
+
+    if (startBefore != null) {
+      query.where((table) => table.start.isSmallerThanValue(startBefore));
+    }
+
+    // Order by most recent first
+    query.orderBy([
+      (table) => OrderingTerm(expression: table.start, mode: OrderingMode.desc)
+    ]);
+
+    // Apply limit
+    if (limit != null) {
+      query.limit(limit);
+    }
+
+    return await query.get();
+  }
+
+  Future<FastingSession> updateFastingSession({
+    required int id,
+    DateTime? start,
+    DateTime? end,
+    int? window,
+  }) async {
+    final companion = FastingSessionsCompanion(
+      id: Value(id),
+      start: start != null ? Value(start) : const Value.absent(),
+      end: end != null ? Value(end) : const Value.absent(),
+      window: window != null ? Value(window) : const Value.absent(),
+    );
+
+    await _db.update(_db.fastingSessions).replace(companion);
+    return await getFastingSessionById(id);
+  }
+
+  Future<void> deleteFastingSession(int id) async {
+    await (_db.delete(_db.fastingSessions)
+          ..where((table) => table.id.equals(id)))
+        .go();
   }
 }

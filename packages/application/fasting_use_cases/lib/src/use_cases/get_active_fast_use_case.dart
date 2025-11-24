@@ -7,7 +7,11 @@ class GetActiveFastUseCase {
     : _fastingRepo = fastingRepo;
 
   Future<FastingSession?> call() async {
-    // TODO:  This should be a more generic query to get the active fasting session
-    return _fastingRepo.getActiveFastingSession();
+    final sessions = await _fastingRepo.getFastingSessions(
+      limit: 1,
+      isActive: true,
+    );
+
+    return sessions.firstOrNull;
   }
 }
