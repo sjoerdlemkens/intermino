@@ -8,3 +8,12 @@ sealed class SettingsEvent extends Equatable {
 }
 
 class LoadSettings extends SettingsEvent {}
+
+class UpdateFastingWindow extends SettingsEvent {
+  final FastingWindow fastingWindow;
+
+  const UpdateFastingWindow(this.fastingWindow);
+
+  @override
+  List<Object> get props => [fastingWindow];
+}

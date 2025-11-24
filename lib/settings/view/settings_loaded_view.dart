@@ -8,8 +8,14 @@ class SettingsLoadedView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("Settings loaded"),
+    final settings = state.settings;
+
+    return ListView(
+      children: [
+        FastingWindowSetting(
+          fastingWindow: settings.fastingWindow,
+        ),
+      ],
     );
   }
 }
