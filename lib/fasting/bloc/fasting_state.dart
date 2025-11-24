@@ -16,15 +16,10 @@ final class FastingLoading extends FastingState {
 final class FastingInProgress extends FastingState {
   final FastingSession session;
 
-  const FastingInProgress({
-    required this.session,
-  });
+  const FastingInProgress(this.session);
 
   FastingInProgress copyWith({
     FastingSession? session,
-  }) {
-    return FastingInProgress(
-      session: session ?? this.session,
-    );
-  }
+  }) =>
+      FastingInProgress(session ?? this.session);
 }

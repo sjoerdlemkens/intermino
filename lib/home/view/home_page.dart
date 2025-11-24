@@ -5,6 +5,7 @@ import 'package:fasting_app/fasting/fasting.dart';
 import 'package:fasting_app/settings/settings.dart';
 import 'package:fasting_repository/fasting_repository.dart';
 import 'package:settings_repository/settings_repository.dart';
+import 'package:fasting_use_cases/fasting_use_cases.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -24,8 +25,16 @@ class HomePage extends StatelessWidget {
         ),
         BlocProvider<FastingBloc>(
           create: (context) => FastingBloc(
-            settingsRepo: settingsRepo,
-            fastingRepo: fastingRepo,
+            startFast: StartFastUseCase(
+              fastingRepo: fastingRepo,
+              settingsRepo: settingsRepo,
+            ),
+            endFast: EndFastUseCase(
+              fastingRepo: fastingRepo,
+            ),
+            getActiveFast: GetActiveFastUseCase(
+              fastingRepo: fastingRepo,
+            ),
           )..add(LoadActiveFast()),
         ),
       ],

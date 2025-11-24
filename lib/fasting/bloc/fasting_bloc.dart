@@ -1,27 +1,29 @@
 import 'dart:async';
+import 'package:fasting_use_cases/fasting_use_cases.dart';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:fasting_app/fasting/fasting.dart';
 import 'package:fasting_repository/fasting_repository.dart'; // FastingWindow comes from here
-import 'package:settings_repository/settings_repository.dart';
 
 part 'fasting_event.dart';
 part 'fasting_state.dart';
 
 class FastingBloc extends Bloc<FastingEvent, FastingState> {
-  final SettingsRepository _settingsRepo;
-  final FastingRepository _fastingRepo;
+  final StartFastUseCase _startFast;
+  final EndFastUseCase _endFast;
+  final GetActiveFastUseCase _getActiveFast;
 
   final Ticker _ticker;
   StreamSubscription<int>? _tickerSubscription;
 
   FastingBloc({
-    required SettingsRepository settingsRepo,
-    required FastingRepository fastingRepo,
+    required StartFastUseCase startFast,
+    required EndFastUseCase endFast,
+    required GetActiveFastUseCase getActiveFast,
     Ticker ticker = const Ticker(),
-  })  : _settingsRepo = settingsRepo,
-        _fastingRepo = fastingRepo,
+  })  : _startFast = startFast,
+        _endFast = endFast,
+        _getActiveFast = getActiveFast,
         _ticker = ticker,
         super(FastingInitial()) {
     on<LoadActiveFast>(_onLoadActiveFast);
@@ -35,14 +37,15 @@ class FastingBloc extends Bloc<FastingEvent, FastingState> {
     Emitter<FastingState> emit,
   ) async {
     emit(const FastingLoading());
+
     try {
-      final activeFastingSession = await _fastingRepo.getActiveFastingSession();
+      final activeFastingSession = await _getActiveFast.call();
 
       if (activeFastingSession != null) {
         final elapsed = DateTime.now().difference(activeFastingSession.start);
         _startTicker(startFrom: elapsed);
 
-        emit(FastingInProgress(session: activeFastingSession));
+        emit(FastingInProgress(activeFastingSession));
       } else {
         emit(const FastingInitial());
       }
@@ -53,22 +56,11 @@ class FastingBloc extends Bloc<FastingEvent, FastingState> {
   }
 
   void _onFastStarted(FastStarted event, Emitter<FastingState> emit) async {
-    // TODO: Retrieve the fasting window from user settings
-    final fastingWindow = FastingWindow.eighteenSix;
-
-    final fastingSession = await _fastingRepo.createFastingSession(
-      started: DateTime.now(),
-    );
-
-    // Copy fasting session with window from settinsg
-    final composedFastingSession = fastingSession.copyWith(
-      window: fastingWindow,
-    );
-
+    final fastingSession = await _startFast.call();
     _startTicker();
 
     emit(
-      FastingInProgress(session: composedFastingSession),
+      FastingInProgress(fastingSession),
     );
   }
 
@@ -84,7 +76,12 @@ class FastingBloc extends Bloc<FastingEvent, FastingState> {
   }
 
   void _onFastEnded(FastEnded event, Emitter<FastingState> emit) {
-    // TODO: Create logic to save fast data using _fastingRepo
+    final state = this.state;
+    if (state is! FastingInProgress) return;
+
+    final fastId = state.session.id!;
+    _endFast.call(fastId);
+
     _tickerSubscription?.cancel();
     emit(FastingInitial());
   }
