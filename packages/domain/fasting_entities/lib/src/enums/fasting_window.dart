@@ -1,5 +1,1 @@
-enum FastingWindow {
-  sixteenEight,
-  eighteenSix,
-  omad,
-}
+enum FastingWindow { sixteenEight, eighteenSix, omad }

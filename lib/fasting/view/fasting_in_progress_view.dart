@@ -16,51 +16,44 @@ class FastingInProgressView extends StatelessWidget {
   Widget build(BuildContext context) {
     final session = state.session;
 
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            children: [
-              // Header
-              Text(
-                "You're fasting!",
-                style: const TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
-
-              const SizedBox(height: 24),
-
-              // Fasting Info
-              Expanded(
-                child: Center(
-                  child: FastingInfo(session),
-                ),
-              ),
-
-              // End Fast Button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => _onEndFastPressed(context),
-                  child: const Text('End Fast'),
-                ),
-              ),
-
-              const SizedBox(height: 24),
-
-              // Start and End Time Row
-              FastingStartEndRow(
-                started: session.start,
-                ending: session.endsOn,
-              ),
-            ],
+    return Column(
+      children: [
+        // Header
+        Text(
+          "You're fasting!",
+          style: const TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
           ),
         ),
-      ),
+
+        const SizedBox(height: 24),
+
+        // Fasting Info
+        Expanded(
+          child: Center(
+            child: ActiveFastInfo(session),
+          ),
+        ),
+
+        // End Fast Button
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: () => _onEndFastPressed(context),
+            child: const Text('End Fast'),
+          ),
+        ),
+
+        const SizedBox(height: 24),
+
+        // Start and End Time Row
+        FastingStartEndRow(
+          start: session.start,
+          end: session.endsOn,
+        ),
+      ],
     );
   }
 }

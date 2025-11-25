@@ -21,7 +21,7 @@ class ProgressRing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bgColor = backgroundColor ?? Colors.grey[200]!;
-    
+
     return SizedBox(
       width: size,
       height: size,
@@ -36,7 +36,8 @@ class ProgressRing extends StatelessWidget {
               value: 1.0,
               strokeWidth: strokeWidth,
               backgroundColor: bgColor,
-              valueColor: const AlwaysStoppedAnimation<Color>(Colors.transparent),
+              valueColor:
+                  const AlwaysStoppedAnimation<Color>(Colors.transparent),
             ),
           ),
           // Progress circle

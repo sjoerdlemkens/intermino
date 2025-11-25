@@ -7,13 +7,16 @@ class FastingView extends StatelessWidget {
   const FastingView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<FastingBloc, FastingState>(
-      builder: (context, state) => switch (state) {
-        FastingInitial() => FastingInitialView(),
-        FastingLoading() => LoadingView(), 
-        FastingInProgress() => FastingInProgressView(state),
-      },
-    );
-  }
+  Widget build(BuildContext context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: BlocBuilder<FastingBloc, FastingState>(
+            builder: (context, state) => switch (state) {
+              FastingInitial() => FastingInitialView(),
+              FastingLoading() => LoadingView(),
+              FastingInProgress() => FastingInProgressView(state),
+            },
+          ),
+        ),
+      );
 }

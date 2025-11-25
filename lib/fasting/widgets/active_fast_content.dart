@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fasting_app/fasting/fasting.dart';
 
-class FastingInfoContent extends StatelessWidget {
+class ActiveFastContent extends StatelessWidget {
   final Duration elapsed;
   final Duration remaining;
 
-  const FastingInfoContent({
+  const ActiveFastContent({
     super.key,
     required this.elapsed,
     required this.remaining,
@@ -14,7 +14,7 @@ class FastingInfoContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final elapsedFormatted = TimeFormatter.formatDuration(elapsed);
-    
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

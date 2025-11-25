@@ -2,10 +2,10 @@ import 'package:fasting_repository/fasting_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:fasting_app/fasting/fasting.dart';
 
-class FastingInfo extends StatelessWidget {
+class ActiveFastInfo extends StatelessWidget {
   final FastingSession session;
 
-  const FastingInfo(
+  const ActiveFastInfo(
     this.session, {
     super.key,
   });
@@ -13,7 +13,7 @@ class FastingInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ProgressRing(
         progress: session.progress,
-        child: FastingInfoContent(
+        child: ActiveFastContent(
           elapsed: session.elapsed,
           remaining: session.remaining,
         ),

@@ -34,17 +34,18 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
   }
 
-  void _onUpdateFastingWindow(UpdateFastingWindow event, Emitter<SettingsState> emit) async {
+  void _onUpdateFastingWindow(
+      UpdateFastingWindow event, Emitter<SettingsState> emit) async {
     final currentState = state;
 
     if (currentState is SettingsLoaded) {
       final updatedSettings = currentState.settings.copyWith(
         fastingWindow: event.fastingWindow,
       );
-      
+
       // TODO: Persist settings to repository
       // await _settingsRepo.saveSettings(updatedSettings);
-      
+
       emit(SettingsLoaded(updatedSettings));
     }
   }
