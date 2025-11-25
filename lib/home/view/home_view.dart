@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fasting_app/history/history.dart';
 import 'package:fasting_app/fasting/fasting.dart';
 import 'package:fasting_app/settings/settings.dart';
 import 'package:fasting_app/home/home.dart';
 
 const homeViewWidgets = {
   HomePageView.fast: FastingView(),
+  HomePageView.history: HistoryView(),
   HomePageView.settings: SettingsView(),
 };
 

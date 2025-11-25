@@ -6,6 +6,10 @@ const navBarItems = {
     icon: Icon(Icons.schedule),
     label: 'Fast',
   ),
+  HomePageView.history: NavigationDestination(
+    icon: Icon(Icons.history),
+    label: 'History',
+  ),
   HomePageView.settings: NavigationDestination(
     icon: Icon(Icons.settings),
     label: 'Settings',
