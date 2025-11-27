@@ -1,0 +1,14 @@
+name: notifications_service
+description: The abstraction of a service used for showing/scheduling notifications.  
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ^3.10.1
+
+dependencies:
+  # path: ^1.9.0
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.6
