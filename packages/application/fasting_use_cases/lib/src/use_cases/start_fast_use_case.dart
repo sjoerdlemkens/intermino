@@ -12,14 +12,12 @@ class StartFastUseCase {
        _settingsRepo = settingsRepo;
 
   Future<FastingSession> call() async {
-    // TODO: Retrieve the fasting window from user settings
-    final fastingWindow = FastingWindow.eighteenSix;
-
+    final fastingWindow = await _settingsRepo.getFastingWindow();
     final fastingSession = await _fastingRepo.createFastingSession(
       started: DateTime.now(),
     );
 
-    // Copy fasting session with window from settinsg
+    // Copy fasting session with window from settings
     final composedFastingSession = fastingSession.copyWith(
       window: fastingWindow,
     );

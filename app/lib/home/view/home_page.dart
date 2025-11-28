@@ -31,6 +31,7 @@ class HomePage extends StatelessWidget {
             ),
             endFast: EndFastUseCase(
               fastingRepo: fastingRepo,
+              settingsRepo: settingsRepo,
             ),
             getActiveFast: GetActiveFastUseCase(
               fastingRepo: fastingRepo,
