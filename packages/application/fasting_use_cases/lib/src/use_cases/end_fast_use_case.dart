@@ -7,11 +7,12 @@ class EndFastUseCase {
     : _fastingRepo = fastingRepo;
 
   Future<FastingSession?> call(int fastId) async {
-    print('EndFastUseCase called with fastId: $fastId');
+    final updatedFastingSession = await _fastingRepo.updateFastingSession(
+      id: fastId,
+      end: DateTime.now(),
+      window: FastingWindow.sixteenEight, // TODO: Get window from user settings
+    );
 
-    //Update fasting session end time in repository
-    // _fastingRepo.updateFastingSession()
-
-    return null;
+    return updatedFastingSession;
   }
 }

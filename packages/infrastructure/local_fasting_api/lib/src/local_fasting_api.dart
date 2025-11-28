@@ -75,13 +75,14 @@ class LocalFastingApi {
     int? window,
   }) async {
     final companion = FastingSessionsCompanion(
-      id: Value(id),
       start: start != null ? Value(start) : const Value.absent(),
       end: end != null ? Value(end) : const Value.absent(),
       window: window != null ? Value(window) : const Value.absent(),
     );
 
-    await _db.update(_db.fastingSessions).replace(companion);
+    await (_db.update(_db.fastingSessions)
+          ..where((table) => table.id.equals(id)))
+        .write(companion);
     return await getFastingSessionById(id);
   }
 
