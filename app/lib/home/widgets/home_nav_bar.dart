@@ -16,11 +16,11 @@ const navBarItems = {
   ),
 };
 
-class NavBar extends StatelessWidget {
+class HomeNavBar extends StatelessWidget {
   final HomePageView selectedView;
   final Function(HomePageView view) onViewSelected;
 
-  const NavBar({
+  const HomeNavBar({
     super.key,
     required this.selectedView,
     required this.onViewSelected,
@@ -32,11 +32,9 @@ class NavBar extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return NavigationBar(
-      selectedIndex: HomePageView.values.indexOf(selectedView),
-      onDestinationSelected: _onItemSelected,
-      destinations: navBarItems.values.toList(),
-    );
-  }
+  Widget build(BuildContext context) => NavigationBar(
+        selectedIndex: HomePageView.values.indexOf(selectedView),
+        onDestinationSelected: _onItemSelected,
+        destinations: navBarItems.values.toList(),
+      );
 }

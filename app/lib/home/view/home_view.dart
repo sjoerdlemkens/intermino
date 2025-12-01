@@ -27,13 +27,12 @@ class _HomeViewState extends State<HomeView> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: homeViewWidgets[_selectedView],
-      bottomNavigationBar: NavBar(
-        selectedView: _selectedView,
-        onViewSelected: _onViewSelected,
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Scaffold(
+        appBar: HomeAppBar(_selectedView),
+        body: homeViewWidgets[_selectedView],
+        bottomNavigationBar: HomeNavBar(
+          selectedView: _selectedView,
+          onViewSelected: _onViewSelected,
+        ),
+      );
 }
