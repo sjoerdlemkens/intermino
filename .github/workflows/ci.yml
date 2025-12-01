@@ -44,6 +44,9 @@ jobs:
       - name: ✨ Verify formatting
         run: melos format
 
+      - name: 🔨 Build generated code
+        run: melos build_runner
+
       - name: 🔍 Analyze code
         run: melos lint
 
