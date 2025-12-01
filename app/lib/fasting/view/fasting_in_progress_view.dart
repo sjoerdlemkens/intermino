@@ -18,18 +18,6 @@ class FastingInProgressView extends StatelessWidget {
 
     return Column(
       children: [
-        // Header
-        Text(
-          "You're fasting!",
-          style: const TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: Colors.black87,
-          ),
-        ),
-
-        const SizedBox(height: 24),
-
         // Fasting Info
         Expanded(
           child: Center(

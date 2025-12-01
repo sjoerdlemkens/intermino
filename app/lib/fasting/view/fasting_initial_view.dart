@@ -13,18 +13,6 @@ class FastingInitialView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          // Header
-          Text(
-            "Ready to fast?",
-            style: const TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
-          ),
-
-          const SizedBox(height: 24),
-
           // Fasting Info
           Expanded(
             child: Center(
