@@ -37,6 +37,8 @@ melos:
     test:
       description: Run tests for all packages
       run: dart test
+      packageFilters:
+        dirExists: test
       exec:
         concurrency: 1
         failFast: true
@@ -44,6 +46,8 @@ melos:
     test:coverage:
       description: Run tests with coverage for all packages
       run: dart test --coverage=coverage && dart run coverage:format_coverage --lcov --in=coverage --out=coverage/lcov.info --report-on=lib
+      packageFilters:
+        dirExists: test
       exec:
         concurrency: 1
 
