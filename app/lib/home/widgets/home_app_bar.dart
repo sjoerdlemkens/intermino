@@ -19,6 +19,13 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) => AppBar(
+        titleTextStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
+              color: Color(0xff0f172b),
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              height: 1.25,
+              letterSpacing: 0.15,
+            ),
         title: Text(
           homeViewTitles[selectedView]!,
         ),

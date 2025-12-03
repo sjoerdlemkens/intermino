@@ -47,6 +47,7 @@ dependencies:
     path: ../packages/domain/repositories/fasting_repository
   fasting_use_cases:
     path: ../packages/application/fasting_use_cases
+  google_fonts: ^6.3.3
 
 dev_dependencies:
   flutter_test:
