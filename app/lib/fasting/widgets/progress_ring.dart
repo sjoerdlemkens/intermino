@@ -49,7 +49,8 @@ class ProgressRing extends StatelessWidget {
               strokeWidth: strokeWidth,
               strokeCap: StrokeCap.round,
               backgroundColor: Colors.transparent,
-              valueColor: AlwaysStoppedAnimation<Color>( theme.colorScheme.primary;),
+              valueColor:
+                  AlwaysStoppedAnimation<Color>(theme.colorScheme.primary),
             ),
           ),
           // Center content
