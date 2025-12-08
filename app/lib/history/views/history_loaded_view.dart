@@ -28,10 +28,42 @@ class HistoryLoadedView extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) => FastingCalendar(
-        currentMonth: state.currentMonth,
-        fastingSessionsByDay: state.fastingSessionsByDay,
-        onPreviousMonth: () => _onPreviousMonthPressed(context),
-        onNextMonth: () => _onNextMonthPressed(context),
-      );
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Calendar card
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade200.withOpacity(0.5),
+                  blurRadius: 4,
+                  offset: const Offset(0, 1),
+                ),
+              ],
+            ),
+            child: SizedBox(
+              height: 320, // Fixed height for calendar
+              child: FastingCalendar(
+                currentMonth: state.currentMonth,
+                fastingSessionsByDay: state.fastingSessionsByDay,
+                activeFast: state.activeFast,
+                onPreviousMonth: () => _onPreviousMonthPressed(context),
+                onNextMonth: () => _onNextMonthPressed(context),
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          // Last Fasts section
+          LastFastsSection(lastFasts: state.lastFasts),
+        ],
+      ),
+    );
+  }
 }

@@ -14,6 +14,7 @@ class HistoryView extends StatelessWidget {
           getMonthlyHistory: GetMonthlyHistoryUseCase(
             fastingRepository: context.read<FastingRepository>(),
           ),
+          fastingRepository: context.read<FastingRepository>(),
         )..add(LoadHistoryMonth(DateTime.now())),
         child: const _HistoryViewContent(),
       );

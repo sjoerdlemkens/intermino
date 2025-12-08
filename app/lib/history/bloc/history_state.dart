@@ -16,10 +16,14 @@ class HistoryLoading extends HistoryState {
 class HistoryLoaded extends HistoryState {
   final DateTime currentMonth;
   final Map<DateTime, List<FastingSession>> fastingSessionsByDay;
+  final List<FastingSession> lastFasts;
+  final FastingSession? activeFast;
 
   const HistoryLoaded({
     required this.currentMonth,
     required this.fastingSessionsByDay,
+    required this.lastFasts,
+    this.activeFast,
   });
 }
 
