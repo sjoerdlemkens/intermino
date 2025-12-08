@@ -28,6 +28,9 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        backgroundColor: _selectedView == HomePageView.settings
+            ? const Color(0xFFF8F8F8)
+            : null,
         appBar: HomeAppBar(_selectedView),
         body: _homeViewWidgets[_selectedView],
         bottomNavigationBar: HomeNavBar(

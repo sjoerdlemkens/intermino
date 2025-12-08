@@ -4,7 +4,7 @@ class GetRecentFastsUseCase {
   final FastingRepository _fastingRepository;
 
   GetRecentFastsUseCase({required FastingRepository fastingRepository})
-      : _fastingRepository = fastingRepository;
+    : _fastingRepository = fastingRepository;
 
   /// Gets the most recent completed fasting sessions.
   /// [limit] defaults to 3 if not specified.
@@ -15,4 +15,3 @@ class GetRecentFastsUseCase {
     );
   }
 }
-

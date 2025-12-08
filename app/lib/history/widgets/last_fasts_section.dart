@@ -55,4 +55,3 @@ class LastFastsSection extends StatelessWidget {
     );
   }
 }
-

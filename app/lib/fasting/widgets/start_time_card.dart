@@ -33,9 +33,8 @@ class StartTimeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final color = iconColor == Colors.blue
-        ? theme.colorScheme.primary
-        : iconColor;
+    final color =
+        iconColor == Colors.blue ? theme.colorScheme.primary : iconColor;
 
     return Card(
       child: Container(
@@ -88,4 +87,3 @@ class StartTimeCard extends StatelessWidget {
     );
   }
 }
-
