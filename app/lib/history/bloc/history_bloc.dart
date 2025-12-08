@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:fasting_repository/fasting_repository.dart';
+import 'package:meta/meta.dart';
 import 'package:fasting_use_cases/fasting_use_cases.dart';
 
 part 'history_event.dart';
@@ -9,13 +9,16 @@ part 'history_state.dart';
 
 class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   final GetMonthlyHistoryUseCase _getMonthlyHistory;
-  final FastingRepository _fastingRepository;
+  final GetRecentFastsUseCase _getRecentFasts;
+  final GetActiveFastUseCase _getActiveFast;
 
   HistoryBloc({
     required GetMonthlyHistoryUseCase getMonthlyHistory,
-    required FastingRepository fastingRepository,
+    required GetRecentFastsUseCase getRecentFasts,
+    required GetActiveFastUseCase getActiveFast,
   })  : _getMonthlyHistory = getMonthlyHistory,
-        _fastingRepository = fastingRepository,
+        _getRecentFasts = getRecentFasts,
+        _getActiveFast = getActiveFast,
         super(const HistoryInitial()) {
     on<LoadHistoryMonth>(_onLoadHistoryMonth);
     on<ChangeMonth>(_onChangeMonth);
@@ -30,19 +33,8 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     try {
       final month = event.month;
       final sessionsByDay = await _getMonthlyHistory(month);
-
-      // Get last 3 completed fasts
-      final lastFasts = await _fastingRepository.getFastingSessions(
-        isActive: false,
-        limit: 3,
-      );
-
-      // Get active fast if any
-      final activeFasts = await _fastingRepository.getFastingSessions(
-        isActive: true,
-        limit: 1,
-      );
-      final activeFast = activeFasts.isNotEmpty ? activeFasts.first : null;
+      final lastFasts = await _getRecentFasts();
+      final activeFast = await _getActiveFast();
 
       emit(HistoryLoaded(
         currentMonth: month,

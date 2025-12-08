@@ -9,15 +9,24 @@ class HistoryView extends StatelessWidget {
   const HistoryView({super.key});
 
   @override
-  Widget build(BuildContext context) => BlocProvider(
-        create: (context) => HistoryBloc(
-          getMonthlyHistory: GetMonthlyHistoryUseCase(
-            fastingRepository: context.read<FastingRepository>(),
-          ),
-          fastingRepository: context.read<FastingRepository>(),
-        )..add(LoadHistoryMonth(DateTime.now())),
-        child: const _HistoryViewContent(),
-      );
+  Widget build(BuildContext context) {
+    final fastingRepository = context.read<FastingRepository>();
+
+    return BlocProvider(
+      create: (context) => HistoryBloc(
+        getMonthlyHistory: GetMonthlyHistoryUseCase(
+          fastingRepository: fastingRepository,
+        ),
+        getRecentFasts: GetRecentFastsUseCase(
+          fastingRepository: fastingRepository,
+        ),
+        getActiveFast: GetActiveFastUseCase(
+          fastingRepo: fastingRepository,
+        ),
+      )..add(LoadHistoryMonth(DateTime.now())),
+      child: const _HistoryViewContent(),
+    );
+  }
 }
 
 class _HistoryViewContent extends StatelessWidget {

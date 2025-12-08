@@ -5,16 +5,29 @@ import 'package:fasting_app/history/history.dart';
 import 'package:fasting_repository/fasting_repository.dart';
 import 'package:fasting_use_cases/fasting_use_cases.dart';
 
-class MockGetMonthlyHistoryUseCase extends Mock implements GetMonthlyHistoryUseCase {}
+class MockGetMonthlyHistoryUseCase extends Mock
+    implements GetMonthlyHistoryUseCase {}
+
+class MockGetRecentFastsUseCase extends Mock implements GetRecentFastsUseCase {}
+
+class MockGetActiveFastUseCase extends Mock implements GetActiveFastUseCase {}
 
 void main() {
   group('HistoryBloc', () {
     late GetMonthlyHistoryUseCase mockGetMonthlyHistory;
+    late GetRecentFastsUseCase mockGetRecentFasts;
+    late GetActiveFastUseCase mockGetActiveFast;
     late HistoryBloc historyBloc;
 
     setUp(() {
       mockGetMonthlyHistory = MockGetMonthlyHistoryUseCase();
-      historyBloc = HistoryBloc(getMonthlyHistory: mockGetMonthlyHistory);
+      mockGetRecentFasts = MockGetRecentFastsUseCase();
+      mockGetActiveFast = MockGetActiveFastUseCase();
+      historyBloc = HistoryBloc(
+        getMonthlyHistory: mockGetMonthlyHistory,
+        getRecentFasts: mockGetRecentFasts,
+        getActiveFast: mockGetActiveFast,
+      );
     });
 
     tearDown(() {
@@ -51,6 +64,8 @@ void main() {
         build: () {
           when(() => mockGetMonthlyHistory(any()))
               .thenAnswer((_) async => mockSessionsByDay);
+          when(() => mockGetRecentFasts()).thenAnswer((_) async => []);
+          when(() => mockGetActiveFast()).thenAnswer((_) async => null);
           return historyBloc;
         },
         act: (bloc) => bloc.add(LoadHistoryMonth(testMonth)),
@@ -62,10 +77,22 @@ void main() {
                 (state) => state.fastingSessionsByDay.length,
                 'sessionsByDay length',
                 2,
+              )
+              .having(
+                (state) => state.lastFasts,
+                'lastFasts',
+                isEmpty,
+              )
+              .having(
+                (state) => state.activeFast,
+                'activeFast',
+                isNull,
               ),
         ],
         verify: (_) {
           verify(() => mockGetMonthlyHistory(testMonth)).called(1);
+          verify(() => mockGetRecentFasts()).called(1);
+          verify(() => mockGetActiveFast()).called(1);
         },
       );
 
@@ -87,8 +114,9 @@ void main() {
       blocTest<HistoryBloc, HistoryState>(
         'emits [HistoryLoading, HistoryLoaded] with empty sessions when no data',
         build: () {
-          when(() => mockGetMonthlyHistory(any()))
-              .thenAnswer((_) async => {});
+          when(() => mockGetMonthlyHistory(any())).thenAnswer((_) async => {});
+          when(() => mockGetRecentFasts()).thenAnswer((_) async => []);
+          when(() => mockGetActiveFast()).thenAnswer((_) async => null);
           return historyBloc;
         },
         act: (bloc) => bloc.add(LoadHistoryMonth(testMonth)),
@@ -100,6 +128,16 @@ void main() {
                 (state) => state.fastingSessionsByDay.isEmpty,
                 'empty sessionsByDay',
                 true,
+              )
+              .having(
+                (state) => state.lastFasts,
+                'lastFasts',
+                isEmpty,
+              )
+              .having(
+                (state) => state.activeFast,
+                'activeFast',
+                isNull,
               ),
         ],
       );
@@ -111,8 +149,9 @@ void main() {
       blocTest<HistoryBloc, HistoryState>(
         'triggers LoadHistoryMonth with new month',
         build: () {
-          when(() => mockGetMonthlyHistory(any()))
-              .thenAnswer((_) async => {});
+          when(() => mockGetMonthlyHistory(any())).thenAnswer((_) async => {});
+          when(() => mockGetRecentFasts()).thenAnswer((_) async => []);
+          when(() => mockGetActiveFast()).thenAnswer((_) async => null);
           return historyBloc;
         },
         act: (bloc) => bloc.add(ChangeMonth(testMonth)),
@@ -123,6 +162,8 @@ void main() {
         ],
         verify: (_) {
           verify(() => mockGetMonthlyHistory(testMonth)).called(1);
+          verify(() => mockGetRecentFasts()).called(1);
+          verify(() => mockGetActiveFast()).called(1);
         },
       );
     });
