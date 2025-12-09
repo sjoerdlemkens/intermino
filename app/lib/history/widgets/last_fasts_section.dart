@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fasting_repository/fasting_repository.dart';
-import 'package:fasting_app/history/widgets/fast_card.dart';
+import 'package:fasting_app/history/history.dart';
 
 class LastFastsSection extends StatelessWidget {
   final List<FastingSession> lastFasts;
@@ -39,7 +39,11 @@ class LastFastsSection extends StatelessWidget {
         Center(
           child: TextButton(
             onPressed: () {
-              // TODO: Navigate to all fasts view
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const AllFastsView(),
+                ),
+              );
             },
             child: const Text(
               'View All Fasts',

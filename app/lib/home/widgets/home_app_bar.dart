@@ -1,4 +1,5 @@
 import 'package:fasting_app/home/home.dart';
+import 'package:fasting_app/misc/misc.dart';
 import 'package:flutter/material.dart';
 
 const homeViewTitles = {
@@ -8,26 +9,36 @@ const homeViewTitles = {
 };
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final HomePageView selectedView;
+  final HomePageView? selectedView;
+  final String? title;
+  final bool showBackButton;
+
   const HomeAppBar(
     this.selectedView, {
     super.key,
+    this.title,
+    this.showBackButton = false,
+  });
+
+  const HomeAppBar.withTitle(
+    this.title, {
+    super.key,
+    this.selectedView,
+    this.showBackButton = true,
   });
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
+  String get _title {
+    if (title != null) return title!;
+    if (selectedView != null) return homeViewTitles[selectedView!]!;
+    return '';
+  }
+
   @override
-  Widget build(BuildContext context) => AppBar(
-        titleTextStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: Color(0xff0f172b),
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              height: 1.25,
-              letterSpacing: 0.15,
-            ),
-        title: Text(
-          homeViewTitles[selectedView]!,
-        ),
+  Widget build(BuildContext context) => CustomAppBar(
+        title: _title,
+        showBackButton: showBackButton,
       );
 }
