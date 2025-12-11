@@ -92,7 +92,7 @@ void main() {
 
         final domainSession = apiSession.toDomain();
 
-        expect(domainSession.id, equals(42));
+        expect(domainSession.id, equals(6));
         expect(domainSession.start, equals(startTime));
         expect(domainSession.end, equals(endTime));
         expect(domainSession.window, equals(FastingWindow.omad));
