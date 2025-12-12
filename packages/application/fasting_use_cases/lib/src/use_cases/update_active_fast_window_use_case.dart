@@ -3,9 +3,8 @@ import 'package:fasting_repository/fasting_repository.dart';
 class UpdateActiveFastWindowUseCase {
   final FastingRepository _fastingRepo;
 
-  UpdateActiveFastWindowUseCase({
-    required FastingRepository fastingRepo,
-  }) : _fastingRepo = fastingRepo;
+  UpdateActiveFastWindowUseCase({required FastingRepository fastingRepo})
+    : _fastingRepo = fastingRepo;
 
   Future<FastingSession?> call(FastingWindow window) async {
     // Get the active fast
@@ -32,5 +31,3 @@ class UpdateActiveFastWindowUseCase {
     return updatedSession;
   }
 }
-
-
