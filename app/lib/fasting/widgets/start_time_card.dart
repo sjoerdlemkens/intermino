@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class StartTimeCard extends StatelessWidget {
-  final DateTime startTime;
+  final DateTime? startTime;
   final Color iconColor;
 
   const StartTimeCard({
-    required this.startTime,
+    this.startTime,
     this.iconColor = Colors.blue,
     super.key,
   });
 
-  String _formatDateTime(DateTime dateTime) {
+  String _formatDateTime(DateTime? dateTime) {
+    if (dateTime == null) {
+      return 'Now';
+    }
+
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final tomorrow = today.add(const Duration(days: 1));
