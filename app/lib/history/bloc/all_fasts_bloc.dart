@@ -53,3 +53,4 @@ class AllFastsBloc extends Bloc<AllFastsEvent, AllFastsState> {
 }
 
 
+
