@@ -98,12 +98,6 @@ abstract class AppLocalizations {
     Locale('nl')
   ];
 
-  /// The conventional newborn programmer greeting
-  ///
-  /// In en, this message translates to:
-  /// **'Hello World!'**
-  String get helloWorld;
-
   /// Title for the notification when a fast ends
   ///
   /// In en, this message translates to:
@@ -113,7 +107,7 @@ abstract class AppLocalizations {
   /// Body text for the notification when a fast ends
   ///
   /// In en, this message translates to:
-  /// **'Your fast has ended. Great job!'**
+  /// **'You reached your goal. Great job!'**
   String get fastingEndNotificationBody;
 }
 

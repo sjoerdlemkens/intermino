@@ -9,9 +9,6 @@ class AppLocalizationsNl extends AppLocalizations {
   AppLocalizationsNl([String locale = 'nl']) : super(locale);
 
   @override
-  String get helloWorld => 'Hallo Wereld!';
-
-  @override
   String get fastingEndNotificationTitle => 'Vasten Voltooid';
 
   @override
