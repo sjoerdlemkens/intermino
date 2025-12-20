@@ -73,4 +73,3 @@ class CurrentFastingSessionInProgressView extends StatelessWidget {
     );
   }
 }
-

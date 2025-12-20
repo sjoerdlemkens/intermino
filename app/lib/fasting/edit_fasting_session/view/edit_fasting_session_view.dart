@@ -73,28 +73,7 @@ class _EditFastingSessionViewContent extends StatelessWidget {
   }
 
   Future<void> _showDeleteConfirmationDialog(BuildContext context) async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete Fast'),
-        content: const Text(
-          'Are you sure you want to delete this fasting session? This action cannot be undone.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            style: TextButton.styleFrom(
-              foregroundColor: Colors.red,
-            ),
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
-    );
+    final confirmed = await ConfirmDeleteFastDialog.show(context);
 
     if (confirmed == true) {
       final bloc = context.read<EditFastingSessionBloc>();
