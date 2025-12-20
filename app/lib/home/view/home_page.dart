@@ -1,4 +1,5 @@
 import 'package:fasting_app/fasting/current_fasting_session/current_fasting_session.dart';
+import 'package:fasting_app/notifications/notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fasting_app/home/home.dart';
@@ -57,6 +58,11 @@ class HomePage extends StatelessWidget {
               settingsBloc: settingsBloc,
             )..add(LoadActiveFast());
           },
+        ),
+        BlocProvider<NotificationsBloc>(
+          create: (context) => NotificationsBloc(
+            notificationsService: notificationsService,
+          ),
         ),
       ],
       child: FastingListener(

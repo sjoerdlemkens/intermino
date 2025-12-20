@@ -20,7 +20,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     ScheduleNotification event,
     Emitter<NotificationsState> emit,
   ) async {
-    final notificationId = DateTime.now().millisecondsSinceEpoch;
+    final notificationId = DateTime.now().millisecondsSinceEpoch % 2147483647;
 
     final notification = Notification(
       id: notificationId,
