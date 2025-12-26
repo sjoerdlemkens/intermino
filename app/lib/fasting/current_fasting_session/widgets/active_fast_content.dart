@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fasting_app/fasting/current_fasting_session/utils/utils.dart';
-import 'package:fasting_app/app/theme/app_spacing.dart';
+import 'package:fasting_app/app/theme/theme.dart';
 
 class ActiveFastContent extends StatelessWidget {
   final Duration elapsed;

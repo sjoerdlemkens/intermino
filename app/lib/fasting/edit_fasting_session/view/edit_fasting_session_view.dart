@@ -5,8 +5,7 @@ import 'package:fasting_app/home/home.dart';
 import 'package:fasting_app/history/history.dart';
 import 'package:fasting_repository/fasting_repository.dart';
 import 'package:fasting_use_cases/fasting_use_cases.dart';
-import 'package:fasting_app/app/theme/app_spacing.dart';
-import 'package:fasting_app/app/theme/app_radius.dart';
+import 'package:fasting_app/app/theme/theme.dart';
 
 class EditFastingSessionView extends StatelessWidget {
   final int sessionId;

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fasting_app/fasting/current_fasting_session/current_fasting_session.dart';
-import 'package:fasting_app/app/theme/app_spacing.dart';
-import 'package:fasting_app/app/theme/app_radius.dart';
+import 'package:fasting_app/app/theme/theme.dart';
 
 class CurrentFastingSessionInProgressView extends StatelessWidget {
   final CurrentFastingSessionInProgress state;

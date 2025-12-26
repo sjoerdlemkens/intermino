@@ -4,7 +4,7 @@ class UpdateCompletedFastUseCase {
   final FastingRepository _fastingRepo;
 
   UpdateCompletedFastUseCase({required FastingRepository fastingRepo})
-      : _fastingRepo = fastingRepo;
+    : _fastingRepo = fastingRepo;
 
   Future<FastingSession?> call({
     required int fastId,
@@ -49,4 +49,3 @@ class UpdateCompletedFastUseCase {
     return updatedSession;
   }
 }
-

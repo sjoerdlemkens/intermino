@@ -3,8 +3,7 @@ import 'package:fasting_app/fasting/current_fasting_session/current_fasting_sess
 import 'package:fasting_app/settings/settings.dart';
 import 'package:fasting_repository/fasting_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fasting_app/app/theme/app_spacing.dart';
-import 'package:fasting_app/app/theme/app_radius.dart';
+import 'package:fasting_app/app/theme/theme.dart';
 
 class CurrentFastingSessionInitialView extends StatelessWidget {
   const CurrentFastingSessionInitialView({super.key});

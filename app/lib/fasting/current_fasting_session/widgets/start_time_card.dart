@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:fasting_app/app/theme/app_spacing.dart';
-import 'package:fasting_app/app/theme/app_radius.dart';
+import 'package:fasting_app/app/theme/theme.dart';
 
 class StartTimeCard extends StatelessWidget {
   final DateTime? startTime;

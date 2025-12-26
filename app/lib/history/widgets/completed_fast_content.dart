@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fasting_app/fasting/fasting.dart';
-import 'package:fasting_app/app/theme/app_spacing.dart';
+import 'package:fasting_app/app/theme/theme.dart';
 
 class CompletedFastContent extends StatelessWidget {
   final Duration duration;

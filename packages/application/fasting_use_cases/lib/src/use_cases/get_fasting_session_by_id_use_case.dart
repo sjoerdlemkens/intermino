@@ -4,10 +4,9 @@ class GetFastingSessionByIdUseCase {
   final FastingRepository _fastingRepo;
 
   GetFastingSessionByIdUseCase({required FastingRepository fastingRepo})
-      : _fastingRepo = fastingRepo;
+    : _fastingRepo = fastingRepo;
 
   Future<FastingSession> call(int sessionId) async {
     return await _fastingRepo.getFastingSessionById(sessionId);
   }
 }
-

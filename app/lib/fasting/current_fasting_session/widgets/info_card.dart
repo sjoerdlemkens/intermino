@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fasting_app/app/theme/app_spacing.dart';
+import 'package:fasting_app/app/theme/theme.dart';
 
 class InfoCard extends StatelessWidget {
   final IconData icon;

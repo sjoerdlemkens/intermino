@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fasting_repository/fasting_repository.dart';
 import 'package:fasting_app/history/history.dart';
 import 'package:fasting_app/fasting/edit_fasting_session/edit_fasting_session.dart';
-import 'package:fasting_app/app/theme/app_spacing.dart';
+import 'package:fasting_app/app/theme/theme.dart';
 
 class LastFastsSection extends StatelessWidget {
   final List<FastingSession> lastFasts;

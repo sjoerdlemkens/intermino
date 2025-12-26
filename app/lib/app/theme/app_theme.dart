@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fasting_app/app/theme/theme.dart';
-import 'package:fasting_app/app/theme/app_radius.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:fasting_app/app/theme/theme.dart';
 
 class AppTheme {
   static ThemeData get light {

@@ -31,4 +31,3 @@ class UpdateActiveFastWindowUseCase {
     return updatedSession;
   }
 }
-

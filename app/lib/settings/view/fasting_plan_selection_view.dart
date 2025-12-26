@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fasting_app/settings/settings.dart';
 import 'package:fasting_repository/fasting_repository.dart';
-import 'package:fasting_app/app/theme/app_spacing.dart';
-import 'package:fasting_app/app/theme/app_radius.dart';
-
+import 'package:fasting_app/app/theme/theme.dart';
 class FastingPlanSelectionView extends StatelessWidget {
   final FastingWindow currentWindow;
 
