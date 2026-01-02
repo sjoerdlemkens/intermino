@@ -5,7 +5,6 @@ import 'package:fasting_app/fasting/edit_fasting_session/edit_fasting_session.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fasting_repository/fasting_repository.dart';
-import 'package:fasting_use_cases/fasting_use_cases.dart';
 import 'package:fasting_app/app/theme/theme.dart';
 
 class AllFastsView extends StatelessWidget {
@@ -17,9 +16,7 @@ class AllFastsView extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => AllFastsBloc(
-        getMonthlyHistory: GetMonthlyHistoryUseCase(
-          fastingRepository: fastingRepository,
-        ),
+        fastingRepo: fastingRepository,
       )..add(LoadAllFastsMonth(DateTime.now())),
       child: Scaffold(
         appBar: const HomeAppBar.withTitle('All Fasts'),

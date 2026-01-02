@@ -191,13 +191,6 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
-  fasting_use_cases:
-    dependency: "direct main"
-    description:
-      path: "../packages/application/fasting_use_cases"
-      relative: true
-    source: path
-    version: "1.0.0"
   ffi:
     dependency: transitive
     description:

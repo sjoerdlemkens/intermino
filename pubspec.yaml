@@ -5,7 +5,6 @@ environment:
 
 # TODO: Use glob here
 workspace:
-  - packages/application/fasting_use_cases
   - packages/application/notifications_service
   - packages/domain/fasting_domain
   - packages/domain/repositories/fasting_repository

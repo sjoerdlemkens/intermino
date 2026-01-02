@@ -4,7 +4,6 @@ import 'package:fasting_app/fasting/fasting.dart';
 import 'package:fasting_app/home/home.dart';
 import 'package:fasting_app/history/history.dart';
 import 'package:fasting_repository/fasting_repository.dart';
-import 'package:fasting_use_cases/fasting_use_cases.dart';
 import 'package:fasting_app/app/theme/theme.dart';
 
 class EditFastingSessionView extends StatelessWidget {
@@ -21,15 +20,7 @@ class EditFastingSessionView extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => EditFastingSessionBloc(
-        getFastingSessionById: GetFastingSessionByIdUseCase(
-          fastingRepo: fastingRepository,
-        ),
-        updateCompletedFast: UpdateCompletedFastUseCase(
-          fastingRepo: fastingRepository,
-        ),
-        deleteFast: DeleteFastUseCase(
-          fastingRepo: fastingRepository,
-        ),
+        fastingRepo: fastingRepository,
       )..add(LoadFastingSession(sessionId)),
       child: Scaffold(
         appBar: const HomeAppBar.withTitle('Fast Details'),

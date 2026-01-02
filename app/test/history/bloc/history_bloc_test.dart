@@ -3,30 +3,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:fasting_app/history/history.dart';
 import 'package:fasting_repository/fasting_repository.dart';
-import 'package:fasting_use_cases/fasting_use_cases.dart';
 
-class MockGetMonthlyHistoryUseCase extends Mock
-    implements GetMonthlyHistoryUseCase {}
-
-class MockGetRecentFastsUseCase extends Mock implements GetRecentFastsUseCase {}
-
-class MockGetActiveFastUseCase extends Mock implements GetActiveFastUseCase {}
+class MockFastingRepository extends Mock implements FastingRepository {}
 
 void main() {
   group('HistoryBloc', () {
-    late GetMonthlyHistoryUseCase mockGetMonthlyHistory;
-    late GetRecentFastsUseCase mockGetRecentFasts;
-    late GetActiveFastUseCase mockGetActiveFast;
+    late FastingRepository mockFastingRepo;
     late HistoryBloc historyBloc;
 
     setUp(() {
-      mockGetMonthlyHistory = MockGetMonthlyHistoryUseCase();
-      mockGetRecentFasts = MockGetRecentFastsUseCase();
-      mockGetActiveFast = MockGetActiveFastUseCase();
+      mockFastingRepo = MockFastingRepository();
       historyBloc = HistoryBloc(
-        getMonthlyHistory: mockGetMonthlyHistory,
-        getRecentFasts: mockGetRecentFasts,
-        getActiveFast: mockGetActiveFast,
+        fastingRepo: mockFastingRepo,
       );
     });
 
@@ -40,32 +28,40 @@ void main() {
 
     group('LoadHistoryMonth', () {
       final testMonth = DateTime(2025, 11, 15); // November 2025
-      final mockSessionsByDay = {
-        DateTime(2025, 11, 5): [
-          FastingSession(
-            id: 1,
-            start: DateTime(2025, 11, 5, 8, 0),
-            end: DateTime(2025, 11, 6, 0, 0),
-            window: FastingWindow.sixteenEight,
-          ),
-        ],
-        DateTime(2025, 11, 10): [
-          FastingSession(
-            id: 2,
-            start: DateTime(2025, 11, 10, 18, 0),
-            end: DateTime(2025, 11, 11, 12, 0),
-            window: FastingWindow.eighteenSix,
-          ),
-        ],
-      };
+      final mockSessions = [
+        FastingSession(
+          id: 1,
+          start: DateTime(2025, 11, 5, 8, 0),
+          end: DateTime(2025, 11, 6, 0, 0),
+          window: FastingWindow.sixteenEight,
+        ),
+        FastingSession(
+          id: 2,
+          start: DateTime(2025, 11, 10, 18, 0),
+          end: DateTime(2025, 11, 11, 12, 0),
+          window: FastingWindow.eighteenSix,
+        ),
+      ];
 
       blocTest<HistoryBloc, HistoryState>(
         'emits [HistoryLoading, HistoryLoaded] when LoadHistoryMonth succeeds',
         build: () {
-          when(() => mockGetMonthlyHistory(any()))
-              .thenAnswer((_) async => mockSessionsByDay);
-          when(() => mockGetRecentFasts()).thenAnswer((_) async => []);
-          when(() => mockGetActiveFast()).thenAnswer((_) async => null);
+          // Mock monthly history sessions
+          when(() => mockFastingRepo.getFastingSessions(
+                startAfter: any(named: 'startAfter'),
+                startBefore: any(named: 'startBefore'),
+                isActive: false,
+              )).thenAnswer((_) async => mockSessions);
+          // Mock recent fasts
+          when(() => mockFastingRepo.getFastingSessions(
+                isActive: false,
+                limit: 3,
+              )).thenAnswer((_) async => []);
+          // Mock active fast
+          when(() => mockFastingRepo.getFastingSessions(
+                limit: 1,
+                isActive: true,
+              )).thenAnswer((_) async => []);
           return historyBloc;
         },
         act: (bloc) => bloc.add(LoadHistoryMonth(testMonth)),
@@ -90,17 +86,30 @@ void main() {
               ),
         ],
         verify: (_) {
-          verify(() => mockGetMonthlyHistory(testMonth)).called(1);
-          verify(() => mockGetRecentFasts()).called(1);
-          verify(() => mockGetActiveFast()).called(1);
+          verify(() => mockFastingRepo.getFastingSessions(
+                startAfter: any(named: 'startAfter'),
+                startBefore: any(named: 'startBefore'),
+                isActive: false,
+              )).called(1);
+          verify(() => mockFastingRepo.getFastingSessions(
+                isActive: false,
+                limit: 3,
+              )).called(1);
+          verify(() => mockFastingRepo.getFastingSessions(
+                limit: 1,
+                isActive: true,
+              )).called(1);
         },
       );
 
       blocTest<HistoryBloc, HistoryState>(
         'emits [HistoryLoading, HistoryError] when LoadHistoryMonth fails',
         build: () {
-          when(() => mockGetMonthlyHistory(any()))
-              .thenThrow(Exception('Failed to load sessions'));
+          when(() => mockFastingRepo.getFastingSessions(
+                startAfter: any(named: 'startAfter'),
+                startBefore: any(named: 'startBefore'),
+                isActive: false,
+              )).thenThrow(Exception('Failed to load sessions'));
           return historyBloc;
         },
         act: (bloc) => bloc.add(LoadHistoryMonth(testMonth)),
@@ -114,9 +123,19 @@ void main() {
       blocTest<HistoryBloc, HistoryState>(
         'emits [HistoryLoading, HistoryLoaded] with empty sessions when no data',
         build: () {
-          when(() => mockGetMonthlyHistory(any())).thenAnswer((_) async => {});
-          when(() => mockGetRecentFasts()).thenAnswer((_) async => []);
-          when(() => mockGetActiveFast()).thenAnswer((_) async => null);
+          when(() => mockFastingRepo.getFastingSessions(
+                startAfter: any(named: 'startAfter'),
+                startBefore: any(named: 'startBefore'),
+                isActive: false,
+              )).thenAnswer((_) async => []);
+          when(() => mockFastingRepo.getFastingSessions(
+                isActive: false,
+                limit: 3,
+              )).thenAnswer((_) async => []);
+          when(() => mockFastingRepo.getFastingSessions(
+                limit: 1,
+                isActive: true,
+              )).thenAnswer((_) async => []);
           return historyBloc;
         },
         act: (bloc) => bloc.add(LoadHistoryMonth(testMonth)),
@@ -149,9 +168,19 @@ void main() {
       blocTest<HistoryBloc, HistoryState>(
         'triggers LoadHistoryMonth with new month',
         build: () {
-          when(() => mockGetMonthlyHistory(any())).thenAnswer((_) async => {});
-          when(() => mockGetRecentFasts()).thenAnswer((_) async => []);
-          when(() => mockGetActiveFast()).thenAnswer((_) async => null);
+          when(() => mockFastingRepo.getFastingSessions(
+                startAfter: any(named: 'startAfter'),
+                startBefore: any(named: 'startBefore'),
+                isActive: false,
+              )).thenAnswer((_) async => []);
+          when(() => mockFastingRepo.getFastingSessions(
+                isActive: false,
+                limit: 3,
+              )).thenAnswer((_) async => []);
+          when(() => mockFastingRepo.getFastingSessions(
+                limit: 1,
+                isActive: true,
+              )).thenAnswer((_) async => []);
           return historyBloc;
         },
         act: (bloc) => bloc.add(ChangeMonth(testMonth)),
@@ -161,9 +190,19 @@ void main() {
               .having((state) => state.currentMonth, 'currentMonth', testMonth),
         ],
         verify: (_) {
-          verify(() => mockGetMonthlyHistory(testMonth)).called(1);
-          verify(() => mockGetRecentFasts()).called(1);
-          verify(() => mockGetActiveFast()).called(1);
+          verify(() => mockFastingRepo.getFastingSessions(
+                startAfter: any(named: 'startAfter'),
+                startBefore: any(named: 'startBefore'),
+                isActive: false,
+              )).called(1);
+          verify(() => mockFastingRepo.getFastingSessions(
+                isActive: false,
+                limit: 3,
+              )).called(1);
+          verify(() => mockFastingRepo.getFastingSessions(
+                limit: 1,
+                isActive: true,
+              )).called(1);
         },
       );
     });

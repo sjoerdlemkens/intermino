@@ -1,21 +1,20 @@
 import 'dart:async';
-import 'package:fasting_use_cases/fasting_use_cases.dart';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 import 'package:fasting_app/fasting/current_fasting_session/utils/utils.dart';
 import 'package:fasting_app/settings/settings.dart';
-import 'package:fasting_repository/fasting_repository.dart'; // FastingWindow comes from here
+import 'package:fasting_repository/fasting_repository.dart';
+import 'package:settings_repository/settings_repository.dart';
+import 'package:notifications_service/notifications_service.dart';
 
 part 'current_fasting_session_event.dart';
 part 'current_fasting_session_state.dart';
 
 class CurrentFastingSessionBloc
     extends Bloc<CurrentFastingSessionEvent, CurrentFastingSessionState> {
-  final StartFastUseCase _startFast;
-  final EndFastUseCase _endFast;
-  final GetActiveFastUseCase _getActiveFast;
-  final UpdateActiveFastWindowUseCase _updateActiveFastWindow;
-  final UpdateActiveFastStartTimeUseCase _updateActiveFastStartTime;
+  final FastingRepository _fastingRepo;
+  final SettingsRepository _settingsRepo;
+  final NotificationsService _notificationsService;
 
   final Ticker _ticker;
   StreamSubscription<int>? _tickerSubscription;
@@ -23,18 +22,14 @@ class CurrentFastingSessionBloc
   Timer? _previewTimer;
 
   CurrentFastingSessionBloc({
-    required StartFastUseCase startFast,
-    required EndFastUseCase endFast,
-    required GetActiveFastUseCase getActiveFast,
-    required UpdateActiveFastWindowUseCase updateActiveFastWindow,
-    required UpdateActiveFastStartTimeUseCase updateActiveFastStartTime,
+    required FastingRepository fastingRepo,
+    required SettingsRepository settingsRepo,
+    required NotificationsService notificationsService,
     required SettingsBloc settingsBloc,
     Ticker ticker = const Ticker(),
-  })  : _startFast = startFast,
-        _endFast = endFast,
-        _getActiveFast = getActiveFast,
-        _updateActiveFastWindow = updateActiveFastWindow,
-        _updateActiveFastStartTime = updateActiveFastStartTime,
+  })  : _fastingRepo = fastingRepo,
+        _settingsRepo = settingsRepo,
+        _notificationsService = notificationsService,
         _ticker = ticker,
         super(const CurrentFastingSessionInitial()) {
     on<LoadActiveFast>(_onLoadActiveFast);
@@ -63,7 +58,12 @@ class CurrentFastingSessionBloc
     emit(const CurrentFastingSessionLoading());
 
     try {
-      final activeFastingSession = await _getActiveFast.call();
+      // Get active fast (isActive: true, limit: 1)
+      final sessions = await _fastingRepo.getFastingSessions(
+        limit: 1,
+        isActive: true,
+      );
+      final activeFastingSession = sessions.firstOrNull;
 
       if (activeFastingSession != null) {
         final elapsed = DateTime.now().difference(activeFastingSession.start);
@@ -84,12 +84,24 @@ class CurrentFastingSessionBloc
 
   void _onFastStarted(
       FastStarted event, Emitter<CurrentFastingSessionState> emit) async {
-    final fastingSession = await _startFast.call();
+    // Get fasting window from settings
+    final fastingWindow = await _settingsRepo.getFastingWindow();
+
+    // Create fasting session
+    final fastingSession = await _fastingRepo.createFastingSession(
+      started: DateTime.now(),
+    );
+
+    // Copy stored fasting session with window from settings
+    final composedFastingSession = fastingSession.copyWith(
+      window: fastingWindow,
+    );
+
     _stopPreviewTimer();
     _startTicker();
 
     emit(
-      CurrentFastingSessionInProgress(fastingSession, null),
+      CurrentFastingSessionInProgress(composedFastingSession, null),
     );
   }
 
@@ -119,12 +131,23 @@ class CurrentFastingSessionBloc
     _previewTimer = null;
   }
 
-  void _onFastEnded(FastEnded event, Emitter<CurrentFastingSessionState> emit) {
+  void _onFastEnded(
+      FastEnded event, Emitter<CurrentFastingSessionState> emit) async {
     final state = this.state;
     if (state is! CurrentFastingSessionInProgress) return;
 
     final fastId = state.session.id!;
-    _endFast.call(fastId);
+
+    // Get fasting window from settings and update the session
+    final fastingWindow = await _settingsRepo.getFastingWindow();
+    await _fastingRepo.updateFastingSession(
+      id: fastId,
+      end: DateTime.now(),
+      window: fastingWindow,
+    );
+
+    // Cancel notification
+    await _notificationsService.cancelNotification(fastId);
 
     _tickerSubscription?.cancel();
     _startPreviewTimer();
@@ -163,10 +186,24 @@ class CurrentFastingSessionBloc
     if (currentState.session.window == event.window) return;
 
     try {
-      final updatedSession = await _updateActiveFastWindow.call(event.window);
-      if (updatedSession != null) {
-        emit(CurrentFastingSessionInProgress(updatedSession, null));
-      }
+      // Get the active fast
+      final activeSessions = await _fastingRepo.getFastingSessions(
+        isActive: true,
+        limit: 1,
+      );
+
+      if (activeSessions.isEmpty) return;
+
+      final activeSession = activeSessions.first;
+      if (activeSession.id == null) return;
+
+      // Update the window
+      final updatedSession = await _fastingRepo.updateFastingSession(
+        id: activeSession.id!,
+        window: event.window,
+      );
+
+      emit(CurrentFastingSessionInProgress(updatedSession, null));
     } catch (e) {
       // On error, keep the current state unchanged
       // Could emit an error state if needed
@@ -184,14 +221,33 @@ class CurrentFastingSessionBloc
     // if (currentState.session.start == event.startTime) return;
 
     try {
-      final updatedSession =
-          await _updateActiveFastStartTime.call(event.startTime);
-      if (updatedSession != null) {
-        // Recalculate elapsed time and restart ticker
-        final elapsed = DateTime.now().difference(updatedSession.start);
-        _startTicker(startFrom: elapsed);
-        emit(CurrentFastingSessionInProgress(updatedSession, null));
+      // Validate that the start time is not in the future
+      final now = DateTime.now();
+      if (event.startTime.isAfter(now)) {
+        return;
       }
+
+      // Get the active fast
+      final activeSessions = await _fastingRepo.getFastingSessions(
+        isActive: true,
+        limit: 1,
+      );
+
+      if (activeSessions.isEmpty) return;
+
+      final activeSession = activeSessions.first;
+      if (activeSession.id == null) return;
+
+      // Update the start time
+      final updatedSession = await _fastingRepo.updateFastingSession(
+        id: activeSession.id!,
+        start: event.startTime,
+      );
+
+      // Recalculate elapsed time and restart ticker
+      final elapsed = DateTime.now().difference(updatedSession.start);
+      _startTicker(startFrom: elapsed);
+      emit(CurrentFastingSessionInProgress(updatedSession, null));
     } catch (e) {
       print(e);
       // On error, keep the current state unchanged

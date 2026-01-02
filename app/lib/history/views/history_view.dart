@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fasting_app/history/history.dart';
 import 'package:fasting_repository/fasting_repository.dart';
-import 'package:fasting_use_cases/fasting_use_cases.dart';
 
 class HistoryView extends StatelessWidget {
   const HistoryView({super.key});
@@ -14,15 +13,7 @@ class HistoryView extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => HistoryBloc(
-        getMonthlyHistory: GetMonthlyHistoryUseCase(
-          fastingRepository: fastingRepository,
-        ),
-        getRecentFasts: GetRecentFastsUseCase(
-          fastingRepository: fastingRepository,
-        ),
-        getActiveFast: GetActiveFastUseCase(
-          fastingRepo: fastingRepository,
-        ),
+        fastingRepo: fastingRepository,
       )..add(LoadHistoryMonth(DateTime.now())),
       child: const _HistoryViewContent(),
     );

@@ -7,7 +7,6 @@ import 'package:fasting_app/fasting/fasting.dart';
 import 'package:fasting_app/settings/settings.dart';
 import 'package:fasting_repository/fasting_repository.dart';
 import 'package:settings_repository/settings_repository.dart';
-import 'package:fasting_use_cases/fasting_use_cases.dart';
 import 'package:notifications_service/notifications_service.dart';
 
 class HomePage extends StatelessWidget {
@@ -24,43 +23,16 @@ class HomePage extends StatelessWidget {
         BlocProvider<SettingsBloc>(
           lazy: false,
           create: (context) => SettingsBloc(
-            getFastingWindow: GetFastingWindowUseCase(
-              settingsRepo: settingsRepo,
-            ),
-            setFastingWindow: SetFastingWindowUseCase(
-              settingsRepo: settingsRepo,
-            ),
-            getNotificationsEnabled: GetNotificationsEnabledUseCase(
-              settingsRepo: settingsRepo,
-            ),
-            setNotificationsEnabled: SetNotificationsEnabledUseCase(
-              settingsRepo: settingsRepo,
-            ),
+            settingsRepo: settingsRepo,
           )..add(LoadSettings()),
         ),
         BlocProvider<CurrentFastingSessionBloc>(
           create: (context) {
             final settingsBloc = context.read<SettingsBloc>();
             return CurrentFastingSessionBloc(
-              startFast: StartFastUseCase(
-                fastingRepo: fastingRepo,
-                settingsRepo: settingsRepo,
-                notificationsService: notificationsService,
-              ),
-              endFast: EndFastUseCase(
-                fastingRepo: fastingRepo,
-                settingsRepo: settingsRepo,
-                notificationsService: notificationsService,
-              ),
-              getActiveFast: GetActiveFastUseCase(
-                fastingRepo: fastingRepo,
-              ),
-              updateActiveFastWindow: UpdateActiveFastWindowUseCase(
-                fastingRepo: fastingRepo,
-              ),
-              updateActiveFastStartTime: UpdateActiveFastStartTimeUseCase(
-                fastingRepo: fastingRepo,
-              ),
+              fastingRepo: fastingRepo,
+              settingsRepo: settingsRepo,
+              notificationsService: notificationsService,
               settingsBloc: settingsBloc,
             )..add(LoadActiveFast());
           },

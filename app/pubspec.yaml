@@ -49,8 +49,6 @@ dependencies:
     path: ../packages/domain/repositories/settings_repository
   fasting_repository:
     path: ../packages/domain/repositories/fasting_repository
-  fasting_use_cases:
-    path: ../packages/application/fasting_use_cases
   google_fonts: ^6.3.3
   flutter_launcher_icons: ^0.14.4
   intl: any

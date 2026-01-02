@@ -2,17 +2,16 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:fasting_repository/fasting_repository.dart';
 import 'package:meta/meta.dart';
-import 'package:fasting_use_cases/fasting_use_cases.dart';
 
 part 'all_fasts_event.dart';
 part 'all_fasts_state.dart';
 
 class AllFastsBloc extends Bloc<AllFastsEvent, AllFastsState> {
-  final GetMonthlyHistoryUseCase _getMonthlyHistory;
+  final FastingRepository _fastingRepo;
 
   AllFastsBloc({
-    required GetMonthlyHistoryUseCase getMonthlyHistory,
-  })  : _getMonthlyHistory = getMonthlyHistory,
+    required FastingRepository fastingRepo,
+  })  : _fastingRepo = fastingRepo,
         super(const AllFastsInitial()) {
     on<LoadAllFastsMonth>(_onLoadAllFastsMonth);
     on<ChangeAllFastsMonth>(_onChangeAllFastsMonth);
@@ -26,7 +25,27 @@ class AllFastsBloc extends Bloc<AllFastsEvent, AllFastsState> {
 
     try {
       final month = event.month;
-      final sessionsByDay = await _getMonthlyHistory(month);
+
+      // Get monthly history
+      final firstDayOfMonth = DateTime(month.year, month.month, 1);
+      final lastDayOfMonth = DateTime(month.year, month.month + 1, 0);
+
+      final sessions = await _fastingRepo.getFastingSessions(
+        startAfter: firstDayOfMonth.subtract(const Duration(days: 1)),
+        startBefore: lastDayOfMonth.add(const Duration(days: 1)),
+        isActive: false, // Only get completed sessions for history
+      );
+
+      // Group sessions by day
+      final sessionsByDay = <DateTime, List<FastingSession>>{};
+      for (final session in sessions) {
+        final day = DateTime(
+          session.start.year,
+          session.start.month,
+          session.start.day,
+        );
+        sessionsByDay.putIfAbsent(day, () => []).add(session);
+      }
 
       // Flatten the map into a single list of sessions, sorted by start time (newest first)
       final allSessions = <FastingSession>[];
@@ -51,6 +70,3 @@ class AllFastsBloc extends Bloc<AllFastsEvent, AllFastsState> {
     add(LoadAllFastsMonth(event.month));
   }
 }
-
-
-

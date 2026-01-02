@@ -2,26 +2,17 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fasting_app/settings/settings.dart';
 import 'package:fasting_repository/fasting_repository.dart';
-import 'package:fasting_use_cases/fasting_use_cases.dart';
+import 'package:settings_repository/settings_repository.dart';
 
 part 'settings_event.dart';
 part 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  final GetFastingWindowUseCase _getFastingWindow;
-  final SetFastingWindowUseCase _setFastingWindow;
-  final GetNotificationsEnabledUseCase _getNotificationsEnabled;
-  final SetNotificationsEnabledUseCase _setNotificationsEnabled;
+  final SettingsRepository _settingsRepo;
 
   SettingsBloc({
-    required GetFastingWindowUseCase getFastingWindow,
-    required SetFastingWindowUseCase setFastingWindow,
-    required GetNotificationsEnabledUseCase getNotificationsEnabled,
-    required SetNotificationsEnabledUseCase setNotificationsEnabled,
-  })  : _getFastingWindow = getFastingWindow,
-        _setFastingWindow = setFastingWindow,
-        _getNotificationsEnabled = getNotificationsEnabled,
-        _setNotificationsEnabled = setNotificationsEnabled,
+    required SettingsRepository settingsRepo,
+  })  : _settingsRepo = settingsRepo,
         super(SettingsInitial()) {
     on<LoadSettings>(_onLoadSettings);
     on<UpdateFastingWindow>(_onUpdateFastingWindow);
@@ -32,8 +23,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     emit(SettingsLoading());
 
     try {
-      final fastingWindow = await _getFastingWindow();
-      final notificationsEnabled = await _getNotificationsEnabled();
+      // Get fasting window (repository has default fallback)
+      final fastingWindow = await _settingsRepo.getFastingWindow();
+      final notificationsEnabled =
+          await _settingsRepo.getNotificationsEnabled();
       final settings = Settings(
         fastingWindow: fastingWindow,
         notificationsEnabled: notificationsEnabled,
@@ -56,7 +49,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     if (currentState is SettingsLoaded) {
       try {
-        await _setFastingWindow(event.fastingWindow);
+        await _settingsRepo.setFastingWindow(event.fastingWindow);
 
         final updatedSettings = currentState.settings.copyWith(
           fastingWindow: event.fastingWindow,
@@ -78,7 +71,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     if (currentState is SettingsLoaded) {
       try {
-        await _setNotificationsEnabled(event.enabled);
+        await _settingsRepo.setNotificationsEnabled(event.enabled);
 
         final updatedSettings = currentState.settings.copyWith(
           notificationsEnabled: event.enabled,
