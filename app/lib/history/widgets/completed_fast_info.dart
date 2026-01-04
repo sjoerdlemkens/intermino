@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fasting_repository/fasting_repository.dart';
 import 'package:fasting_app/app/theme/theme.dart';
 
+// TODO: Give this widget a better name, with less props
 class CompletedFastInfo extends StatelessWidget {
   final FastingSession session;
 
