@@ -7,7 +7,15 @@ sealed class CurrentFastingSessionEvent {
 
 class FastStarted extends CurrentFastingSessionEvent {}
 
-class FastEnded extends CurrentFastingSessionEvent {}
+class FastEnded extends CurrentFastingSessionEvent {
+  final DateTime endTime;
+
+  const FastEnded({required this.endTime});
+}
+
+class FastCanceled extends CurrentFastingSessionEvent {
+  const FastCanceled();
+}
 
 class LoadActiveFast extends CurrentFastingSessionEvent {}
 

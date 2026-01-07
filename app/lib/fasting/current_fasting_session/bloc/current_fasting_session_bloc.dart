@@ -35,6 +35,7 @@ class CurrentFastingSessionBloc
     on<LoadActiveFast>(_onLoadActiveFast);
     on<FastStarted>(_onFastStarted);
     on<FastEnded>(_onFastEnded);
+    on<FastCanceled>(_onFastCanceled);
     on<_TimerTicked>(_onTimerTicked);
     on<UpdateActiveFastWindow>(_onUpdateActiveFastWindow);
     on<UpdateActiveFastStartTime>(_onUpdateActiveFastStartTime);
@@ -142,9 +143,27 @@ class CurrentFastingSessionBloc
     final fastingWindow = await _settingsRepo.getFastingWindow();
     await _fastingRepo.updateFastingSession(
       id: fastId,
-      end: DateTime.now(),
+      end: event.endTime,
       window: fastingWindow,
     );
+
+    // Cancel notification
+    await _notificationsService.cancelNotification(fastId);
+
+    _tickerSubscription?.cancel();
+    _startPreviewTimer();
+    emit(const CurrentFastingSessionReady());
+  }
+
+  void _onFastCanceled(
+      FastCanceled event, Emitter<CurrentFastingSessionState> emit) async {
+    final state = this.state;
+    if (state is! CurrentFastingSessionInProgress) return;
+
+    final fastId = state.session.id!;
+
+    // Delete the fasting session
+    await _fastingRepo.deleteFastingSession(fastId);
 
     // Cancel notification
     await _notificationsService.cancelNotification(fastId);
