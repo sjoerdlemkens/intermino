@@ -1,4 +1,4 @@
-name: notifications_repository
+name: drift_notifications_api
 description: A starting point for Dart libraries or applications.
 version: 1.0.0
 publish_to: none
@@ -9,7 +9,9 @@ environment:
 
 dependencies:
   notifications_api:
-    path: ../../abstract/notifications_api
+    path: ../../../domain/abstract/notifications_api
+  drift_app_database:
+    path: ../../../infrastructure/data/db/drift_app_database
 
 dev_dependencies:
   lints: ^6.0.0

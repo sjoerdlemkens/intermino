@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:equatable/equatable.dart';
 import 'package:notifications_service/notifications_service.dart';
 
 part 'notifications_event.dart';
@@ -13,35 +13,35 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     required NotificationsService notificationsService,
   })  : _notificationsService = notificationsService,
         super(NotificationsInitial()) {
-    on<ScheduleNotification>(_onScheduleNotification);
-    on<CancelNotification>(_onCancelNotification);
+    // on<ScheduleNotification>(_onScheduleNotification);
+    // on<CancelNotification>(_onCancelNotification);
   }
 
-  void _onScheduleNotification(
-    ScheduleNotification event,
-    Emitter<NotificationsState> emit,
-  ) async {
-    final notificationId = DateTime.now().millisecondsSinceEpoch % 2147483647;
+  // void _onScheduleNotification(
+  //   ScheduleNotification event,
+  //   Emitter<NotificationsState> emit,
+  // ) async {
+  //   final notificationId = DateTime.now().millisecondsSinceEpoch % 2147483647;
 
-    final notification = Notification(
-      id: notificationId,
-      title: event.title,
-      body: event.body,
-      scheduledDate: event.scheduledDate,
-    );
+  //   final notification = Notification(
+  //     id: notificationId,
+  //     title: event.title,
+  //     body: event.body,
+  //     scheduledDate: event.scheduledDate,
+  //   );
 
-    await _notificationsService.scheduleNotification(notification);
+  //   await _notificationsService.scheduleNotification(notification);
 
-    emit(NotificationScheduled(notificationId));
-  }
+  //   emit(NotificationScheduled(notificationId));
+  // }
 
-  void _onCancelNotification(
-    CancelNotification event,
-    Emitter<NotificationsState> emit,
-  ) =>
-      emit(
-        NotificationCancelled(
-          event.notificationId,
-        ),
-      );
+  // void _onCancelNotification(
+  //   CancelNotification event,
+  //   Emitter<NotificationsState> emit,
+  // ) =>
+  //     emit(
+  //       NotificationCancelled(
+  //         event.notificationId,
+  //       ),
+  //     );
 }

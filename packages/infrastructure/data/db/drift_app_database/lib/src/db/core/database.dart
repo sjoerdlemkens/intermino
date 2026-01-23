@@ -1,14 +1,15 @@
 import 'dart:io';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
+import 'package:notifications_api/notifications_api.dart';
 import 'package:path_provider/path_provider.dart';
 import '../tables/tables.dart';
 import 'package:path/path.dart' as path;
 
 part 'database.g.dart';
 
-@DriftDatabase(tables: [FastingSessions])
-class DriftAppDatabase extends _$AppDatabase {
+@DriftDatabase(tables: [FastingSessions, Notifications])
+class DriftAppDatabase extends _$DriftAppDatabase {
   DriftAppDatabase([QueryExecutor? executor])
     : super(executor ?? _openConnection());
 

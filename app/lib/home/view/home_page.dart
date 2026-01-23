@@ -43,9 +43,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ],
-      child: FastingListener(
-        child: HomeView(),
-      ),
+      child: HomeView(),
     );
   }
 }

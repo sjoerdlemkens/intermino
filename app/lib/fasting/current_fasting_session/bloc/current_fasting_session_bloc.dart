@@ -4,8 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:fasting_app/fasting/current_fasting_session/utils/utils.dart';
 import 'package:fasting_app/settings/settings.dart';
 import 'package:fasting_repository/fasting_repository.dart';
-import 'package:settings_repository/settings_repository.dart';
 import 'package:notifications_service/notifications_service.dart';
+import 'package:settings_repository/settings_repository.dart';
 
 part 'current_fasting_session_event.dart';
 part 'current_fasting_session_state.dart';

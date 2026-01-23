@@ -43,11 +43,11 @@ dependencies:
   fasting_repository:
     path: ../packages/domain/repositories/fasting_repository
   drift_app_database:
-    path: ../packages/infrastructure/data/drift_app_database
+    path: ../packages/infrastructure/data/db/drift_app_database
   drift_fasting_api:
     path: ../packages/infrastructure/data/drift_fasting_api
   local_settings_api:
-    path: ../packages/infrastructure/data/local_settings_api
+    path: ../packages/infrastructure/data/shared_prefs_settings_api
   local_notifications_service:
     path: ../packages/infrastructure/local_notifications_service
   google_fonts: ^6.3.3
