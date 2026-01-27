@@ -1,4 +1,4 @@
-import 'package:fasting_app/l10n/app_localizations.dart';
+import 'package:fasting_app/app/app.dart';
 import 'package:fasting_app/notifications/bloc/notifications_bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

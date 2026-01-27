@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fasting_app/l10n/app_localizations.dart';
+import 'package:fasting_app/app/l10n/app_localizations.dart';
 import 'package:fasting_app/app/app.dart';
 import 'package:fasting_app/home/home.dart';
 
