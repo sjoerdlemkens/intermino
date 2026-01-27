@@ -10,8 +10,6 @@ environment:
 dependencies:
   fasting_api:
     path: ../../abstract/fasting_api
-  fasting_domain:
-    path: ../../fasting_domain
 
 dev_dependencies:
   mocktail: ^1.0.4

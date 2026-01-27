@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:drift_app_database/drift_app_database.dart';
+import 'package:fasting_api/fasting_api.dart'  show FastingSession;
 
 @UseRowClass(FastingSession)
 class FastingSessions extends Table {
@@ -8,4 +8,5 @@ class FastingSessions extends Table {
   DateTimeColumn get end => dateTime().nullable()();
   IntColumn get window =>
       integer().nullable()(); // window is added on fast completion
+  IntColumn get notificationId => integer().nullable()();
 }

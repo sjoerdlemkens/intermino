@@ -1,10 +1,11 @@
 import 'dart:io';
+import 'package:path/path.dart' as path;
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
-import 'package:notifications_api/notifications_api.dart';
 import 'package:path_provider/path_provider.dart';
 import '../tables/tables.dart';
-import 'package:path/path.dart' as path;
+import 'package:notifications_api/notifications_api.dart' show Notification;
+import 'package:fasting_api/fasting_api.dart' show FastingSession;
 
 part 'database.g.dart';
 

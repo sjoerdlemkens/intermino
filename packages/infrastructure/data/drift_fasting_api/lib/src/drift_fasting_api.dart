@@ -30,15 +30,7 @@ class DriftFastingApi implements api.FastingApi {
       throw Exception('Fasting session with id $id not found');
     }
 
-    // TODO: Move mappers to extensions
-    final mappedFastingSession = api.FastingSession(
-      id: fastingSession.id,
-      start: fastingSession.start,
-      end: fastingSession.end,
-      window: fastingSession.window,
-    );
-
-    return mappedFastingSession;
+    return fastingSession;
   }
 
   @override
@@ -79,16 +71,7 @@ class DriftFastingApi implements api.FastingApi {
 
     final fastingSessions = await query.get();
 
-    return fastingSessions
-        .map(
-          (session) => api.FastingSession(
-            id: session.id,
-            start: session.start,
-            end: session.end,
-            window: session.window,
-          ),
-        )
-        .toList();
+    return fastingSessions;
   }
 
   @override

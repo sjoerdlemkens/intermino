@@ -1,16 +1,18 @@
-import 'package:fasting_domain/fasting_domain.dart';
+import 'package:fasting_repository/fasting_repository.dart';
 
 class FastingSession {
   final int? id;
   final DateTime start;
   final DateTime? end;
   final FastingWindow? window;
+  final int? notificationId;
 
   const FastingSession({
     this.id,
     required this.window,
     required this.start,
     this.end,
+    this.notificationId,
   });
 
   /// Whether the fast is currently ongoing.
@@ -50,12 +52,11 @@ class FastingSession {
     DateTime? start,
     DateTime? end,
     FastingWindow? window,
-  }) {
-    return FastingSession(
-      id: id ?? this.id,
-      start: start ?? this.start,
-      end: end ?? this.end,
-      window: window ?? this.window,
-    );
-  }
+  }) =>
+      FastingSession(
+        id: id ?? this.id,
+        start: start ?? this.start,
+        end: end ?? this.end,
+        window: window ?? this.window,
+      );
 }

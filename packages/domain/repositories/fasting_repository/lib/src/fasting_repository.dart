@@ -1,6 +1,5 @@
 import 'package:fasting_api/fasting_api.dart';
-import 'package:fasting_repository/fasting_repository.dart';
-import 'package:fasting_domain/fasting_domain.dart' as fasting_domain;
+import 'package:fasting_repository/fasting_repository.dart' as domain;
 
 /// Repository for managing fasting sessions.
 class FastingRepository {
@@ -11,7 +10,7 @@ class FastingRepository {
   }) : _fastingApi = fastingApi;
 
   /// Creates a new fasting session with the specified start time.
-  Future<fasting_domain.FastingSession> createFastingSession({
+  Future<domain.FastingSession> createFastingSession({
     required DateTime started,
   }) async {
     final createdFast = await _fastingApi.createFastingSession(
@@ -24,7 +23,7 @@ class FastingRepository {
   }
 
   /// Retrieves fasting sessions with optional filtering.
-  Future<List<fasting_domain.FastingSession>> getFastingSessions({
+  Future<List<domain.FastingSession>> getFastingSessions({
     bool? isActive,
     int? limit,
     DateTime? startAfter,
@@ -41,18 +40,18 @@ class FastingRepository {
   }
 
   /// Retrieves a fasting session by its ID.
-  Future<fasting_domain.FastingSession> getFastingSessionById(int id) async {
+  Future<domain.FastingSession> getFastingSessionById(int id) async {
     final session = await _fastingApi.getFastingSessionById(id);
 
     return session.toDomain();
   }
 
   /// Updates an existing fasting session with new values.
-  Future<fasting_domain.FastingSession> updateFastingSession({
+  Future<domain.FastingSession> updateFastingSession({
     required int id,
     DateTime? start,
     DateTime? end,
-    FastingWindow? window,
+    domain.FastingWindow? window,
   }) async {
     final updatedSession = await _fastingApi.updateFastingSession(
       id: id,

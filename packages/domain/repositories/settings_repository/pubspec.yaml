@@ -8,8 +8,10 @@ environment:
   sdk: ^3.6.1
 
 dependencies:
-  fasting_domain:
-    path: ../../fasting_domain
+  # Needs fasting repo for the fasting window enum
+  fasting_repository:
+    path: ../fasting_repository
+
   settings_api:
     path: ../../abstract/settings_api
 

@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:fasting_domain/fasting_domain.dart';
 import 'package:settings_api/settings_api.dart';
 import 'package:settings_repository/settings_repository.dart';
+import 'package:fasting_repository/fasting_repository.dart' show FastingWindow;
 
 const _defaultFastingWindow = FastingWindow.eighteenSix;
 

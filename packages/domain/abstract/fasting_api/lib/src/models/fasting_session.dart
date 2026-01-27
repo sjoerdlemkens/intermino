@@ -3,11 +3,13 @@ class FastingSession {
   final DateTime start;
   final DateTime? end;
   final int? window;
+  final int? notificationId;
 
   FastingSession({
     required this.id,
     required this.start,
     required this.end,
     required this.window,
+    required this.notificationId,
   });
 }

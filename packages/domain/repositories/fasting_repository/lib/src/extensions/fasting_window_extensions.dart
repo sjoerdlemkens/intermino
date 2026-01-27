@@ -1,4 +1,5 @@
-import 'package:fasting_domain/fasting_domain.dart';
+
+import 'package:fasting_repository/fasting_repository.dart';
 
 extension FastingWindowExtensions on FastingWindow {
   Duration get duration => switch (this) {

@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:fasting_domain/fasting_domain.dart';
+import 'package:fasting_repository/fasting_repository.dart';
 
 void main() {
   group('FastingSession', () {
