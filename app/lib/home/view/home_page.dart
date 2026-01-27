@@ -34,6 +34,7 @@ class HomePage extends StatelessWidget {
             return CurrentFastingSessionBloc(
               fastingRepo: fastingRepo,
               settingsRepo: settingsRepo,
+              notificationsRepository: notificationsRepo,
               notificationsService: notificationsService,
               settingsBloc: settingsBloc,
             )..add(LoadActiveFast());

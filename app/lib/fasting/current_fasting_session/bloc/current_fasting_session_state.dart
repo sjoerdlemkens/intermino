@@ -19,9 +19,8 @@ final class CurrentFastingSessionReady extends CurrentFastingSessionState {
 
 final class CurrentFastingSessionInProgress extends CurrentFastingSessionState {
   final FastingSession session;
-  final int? notificationId;
 
-  const CurrentFastingSessionInProgress(this.session, this.notificationId);
+  const CurrentFastingSessionInProgress(this.session);
 
   CurrentFastingSessionInProgress copyWith({
     FastingSession? session,
@@ -29,7 +28,5 @@ final class CurrentFastingSessionInProgress extends CurrentFastingSessionState {
   }) =>
       CurrentFastingSessionInProgress(
         session ?? this.session,
-        notificationId ?? this.notificationId,
       );
 }
-

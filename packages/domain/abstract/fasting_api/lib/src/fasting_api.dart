@@ -21,6 +21,7 @@ abstract class FastingApi {
     DateTime? start,
     DateTime? end,
     int? window,
+    int? notificationId,
   });
 
   /// Deletes a fasting session by its ID.

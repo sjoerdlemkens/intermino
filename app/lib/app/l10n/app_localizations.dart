@@ -98,17 +98,17 @@ abstract class AppLocalizations {
     Locale('nl')
   ];
 
-  /// Title for the notification when a fast ends
+  /// No description provided for @fastCompletedNotificationTitle.
   ///
   /// In en, this message translates to:
   /// **'Fasting Complete'**
-  String get fastingEndNotificationTitle;
+  String get fastCompletedNotificationTitle;
 
-  /// Body text for the notification when a fast ends
+  /// No description provided for @fastCompletedNotificationBody.
   ///
   /// In en, this message translates to:
   /// **'You reached your goal. Great job!'**
-  String get fastingEndNotificationBody;
+  String get fastCompletedNotificationBody;
 }
 
 class _AppLocalizationsDelegate

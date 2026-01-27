@@ -1,4 +1,5 @@
 {
-  "fastingEndNotificationTitle": "Vasten Voltooid",
-  "fastingEndNotificationBody": "Je hebt je doel bereikt. Goed gedaan!"
+  "@@locale":"nl",
+  "fastCompletedNotificationTitle": "Vasten Voltooid",
+  "fastCompletedNotificationBody": "Je hebt je doel bereikt. Goed gedaan!"
 }

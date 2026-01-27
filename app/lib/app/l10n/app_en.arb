@@ -1,10 +1,5 @@
 {
-  "fastingEndNotificationTitle": "Fasting Complete",
-  "@fastingEndNotificationTitle": {
-    "description": "Title for the notification when a fast ends"
-  },
-  "fastingEndNotificationBody": "You reached your goal. Great job!",
-  "@fastingEndNotificationBody": {
-    "description": "Body text for the notification when a fast ends"
-  }
+  "@@locale":"en",
+  "fastCompletedNotificationTitle": "Fasting Complete",
+  "fastCompletedNotificationBody": "You reached your goal. Great job!"
 }

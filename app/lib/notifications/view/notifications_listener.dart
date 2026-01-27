@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:fasting_app/app/app.dart';
 import 'package:fasting_app/notifications/bloc/notifications_bloc.dart';
 import 'package:flutter/widgets.dart';
@@ -26,15 +27,17 @@ class NotificationsListener extends StatelessWidget {
     ));
   }
 
-  // TODO: Improve this
-  String _translateNotificationTKey(BuildContext context, String tKey) =>
-      switch (tKey) {
-        'fastingEndNotificationTitle' =>
-          AppLocalizations.of(context)!.fastingEndNotificationTitle,
-        'fastingEndNotificationBody' =>
-          AppLocalizations.of(context)!.fastingEndNotificationBody,
-        _ => throw UnimplementedError('Translation key $tKey not implemented'),
-      };
+  String _translateNotificationTKey(BuildContext context, String tKey) {
+    switch (tKey) {
+      case 'fastCompletedNotificationTitle':
+        return AppLocalizations.of(context)!.fastCompletedNotificationTitle;
+      case 'fastCompletedNotificationBody':
+        return AppLocalizations.of(context)!.fastCompletedNotificationBody;
+      default:
+        log('Translation key $tKey not implemented');
+        return tKey;
+    }
+  }
 
   @override
   Widget build(BuildContext context) =>

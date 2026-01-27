@@ -80,11 +80,15 @@ class DriftFastingApi implements api.FastingApi {
     DateTime? start,
     DateTime? end,
     int? window,
+    int? notificationId,
   }) async {
     final companion = FastingSessionsCompanion(
       start: start != null ? Value(start) : const Value.absent(),
       end: end != null ? Value(end) : const Value.absent(),
       window: window != null ? Value(window) : const Value.absent(),
+      notificationId: notificationId != null
+          ? Value(notificationId)
+          : const Value.absent(),
     );
 
     await (_db.update(

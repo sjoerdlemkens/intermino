@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 import 'package:fasting_app/fasting/current_fasting_session/utils/utils.dart';
 import 'package:fasting_app/settings/settings.dart';
 import 'package:fasting_repository/fasting_repository.dart';
+import 'package:notifications_repository/notifications_repository.dart';
 import 'package:notifications_service/notifications_service.dart';
 import 'package:settings_repository/settings_repository.dart';
 
@@ -14,6 +16,7 @@ class CurrentFastingSessionBloc
     extends Bloc<CurrentFastingSessionEvent, CurrentFastingSessionState> {
   final FastingRepository _fastingRepo;
   final SettingsRepository _settingsRepo;
+  final NotificationsRepository _notificationsRepository;
   final NotificationsService _notificationsService;
 
   final Ticker _ticker;
@@ -24,11 +27,13 @@ class CurrentFastingSessionBloc
   CurrentFastingSessionBloc({
     required FastingRepository fastingRepo,
     required SettingsRepository settingsRepo,
+    required NotificationsRepository notificationsRepository,
     required NotificationsService notificationsService,
     required SettingsBloc settingsBloc,
     Ticker ticker = const Ticker(),
   })  : _fastingRepo = fastingRepo,
         _settingsRepo = settingsRepo,
+        _notificationsRepository = notificationsRepository,
         _notificationsService = notificationsService,
         _ticker = ticker,
         super(const CurrentFastingSessionInitial()) {
@@ -71,38 +76,52 @@ class CurrentFastingSessionBloc
         _stopPreviewTimer();
         _startTicker(startFrom: elapsed);
 
-        emit(CurrentFastingSessionInProgress(activeFastingSession, null));
+        emit(CurrentFastingSessionInProgress(activeFastingSession));
       } else {
         _startPreviewTimer();
         emit(const CurrentFastingSessionReady());
       }
     } catch (e) {
-      // TODO:  Log the error
+      log(e.toString());
       _startPreviewTimer();
       emit(const CurrentFastingSessionReady());
     }
   }
 
   void _onFastStarted(
-      FastStarted event, Emitter<CurrentFastingSessionState> emit) async {
+    FastStarted event,
+    Emitter<CurrentFastingSessionState> emit,
+  ) async {
     // Get fasting window from settings
     final fastingWindow = await _settingsRepo.getFastingWindow();
 
-    // Create fasting session
+    // Create fasting session in repository
     final fastingSession = await _fastingRepo.createFastingSession(
       started: DateTime.now(),
+    )
+      // ... and add the fasting window set in the settings
+      ..copyWith(
+        window: fastingWindow,
+      );
+
+    // Now create a notification for the fasting session
+    final notification = await _notificationsRepository.createNotification(
+      titleTKey: 'fastCompletedNotificationTitle',
+      bodyTKey: 'fastCompletedNotificationBody',
+      scheduledAt: fastingSession.endsOn,
     );
 
-    // Copy stored fasting session with window from settings
-    final composedFastingSession = fastingSession.copyWith(
-      window: fastingWindow,
+    // Update the fasting session with the created notification id
+    final updatedFastingSession = await _fastingRepo.updateFastingSession(
+      id: fastingSession.id!,
+      notificationId: notification.id,
     );
 
     _stopPreviewTimer();
     _startTicker();
 
     emit(
-      CurrentFastingSessionInProgress(composedFastingSession, null),
+      CurrentFastingSessionInProgress(updatedFastingSession),
     );
   }
 
@@ -156,20 +175,25 @@ class CurrentFastingSessionBloc
   }
 
   void _onFastCanceled(
-      FastCanceled event, Emitter<CurrentFastingSessionState> emit) async {
+    FastCanceled event,
+    Emitter<CurrentFastingSessionState> emit,
+  ) async {
     final state = this.state;
     if (state is! CurrentFastingSessionInProgress) return;
 
-    final fastId = state.session.id!;
+    final fastingSession = state.session;
 
-    // Delete the fasting session
-    await _fastingRepo.deleteFastingSession(fastId);
+    await _fastingRepo.deleteFastingSession(fastingSession.id!);
 
-    // Cancel notification
-    await _notificationsService.cancelNotification(fastId);
+    // If it has a notification, cancel it
+    if (fastingSession.notificationId != null)
+      await _notificationsService.cancelNotification(
+        fastingSession.notificationId!,
+      );
 
     _tickerSubscription?.cancel();
     _startPreviewTimer();
+
     emit(const CurrentFastingSessionReady());
   }
 
@@ -222,7 +246,7 @@ class CurrentFastingSessionBloc
         window: event.window,
       );
 
-      emit(CurrentFastingSessionInProgress(updatedSession, null));
+      emit(CurrentFastingSessionInProgress(updatedSession));
     } catch (e) {
       // On error, keep the current state unchanged
       // Could emit an error state if needed
@@ -266,7 +290,7 @@ class CurrentFastingSessionBloc
       // Recalculate elapsed time and restart ticker
       final elapsed = DateTime.now().difference(updatedSession.start);
       _startTicker(startFrom: elapsed);
-      emit(CurrentFastingSessionInProgress(updatedSession, null));
+      emit(CurrentFastingSessionInProgress(updatedSession));
     } catch (e) {
       print(e);
       // On error, keep the current state unchanged

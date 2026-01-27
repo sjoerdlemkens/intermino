@@ -9,9 +9,9 @@ class AppLocalizationsNl extends AppLocalizations {
   AppLocalizationsNl([String locale = 'nl']) : super(locale);
 
   @override
-  String get fastingEndNotificationTitle => 'Vasten Voltooid';
+  String get fastCompletedNotificationTitle => 'Vasten Voltooid';
 
   @override
-  String get fastingEndNotificationBody =>
+  String get fastCompletedNotificationBody =>
       'Je hebt je doel bereikt. Goed gedaan!';
 }

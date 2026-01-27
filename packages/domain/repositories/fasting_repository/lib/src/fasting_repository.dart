@@ -52,12 +52,14 @@ class FastingRepository {
     DateTime? start,
     DateTime? end,
     domain.FastingWindow? window,
+    int? notificationId,
   }) async {
     final updatedSession = await _fastingApi.updateFastingSession(
       id: id,
       start: start,
       end: end,
       window: window?.toInt(),
+      notificationId: notificationId,
     );
 
     return updatedSession.toDomain();

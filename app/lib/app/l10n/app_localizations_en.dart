@@ -9,8 +9,9 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get fastingEndNotificationTitle => 'Fasting Complete';
+  String get fastCompletedNotificationTitle => 'Fasting Complete';
 
   @override
-  String get fastingEndNotificationBody => 'You reached your goal. Great job!';
+  String get fastCompletedNotificationBody =>
+      'You reached your goal. Great job!';
 }
