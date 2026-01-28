@@ -28,9 +28,12 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
         _notificationsRepo = notificationsRepo,
         _notificationsService = notificationsService,
         super(NotificationsInitial()) {
-    // Setup event handlers
+    // Initial cleanup
+    add(_NotificationsCleanUpRequested());
 
+    // Setup event handlers
     on<ScheduleNotification>(_onScheduleNotification);
+    on<_NotificationsCleanUpRequested>(_onNotificationsCleanUp);
     on<_NotificationCreated>(_onNotificationCreated);
     on<_NotificationsEnabledChanged>(_onNotificationsEnabledChanged);
 
@@ -61,6 +64,22 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       );
     } catch (e) {
       log('Error scheduling notification: $e');
+    }
+  }
+
+  void _onNotificationsCleanUp(
+    _NotificationsCleanUpRequested event,
+    Emitter<NotificationsState> emit,
+  ) async {
+    try {
+      final pastNotifications =
+          await _notificationsRepo.getNotifications(to: DateTime.now());
+
+      for (final notification in pastNotifications) {
+        await _notificationsRepo.deleteNotification(notification.id);
+      }
+    } catch (e) {
+      log('Error cleaning up notifications: $e');
     }
   }
 

@@ -25,6 +25,13 @@ final class ScheduleNotification extends NotificationsEvent {
   List<Object> get props => [id, title, body, scheduledAt];
 }
 
+final class _NotificationsCleanUpRequested extends NotificationsEvent {
+  const _NotificationsCleanUpRequested();
+
+  @override
+  List<Object> get props => [];
+}
+
 final class _NotificationCreated extends NotificationsEvent {
   final Notification notification;
 
