@@ -12,18 +12,11 @@ class FastingPlanCard extends StatelessWidget {
     super.key,
   });
 
-  String _getFastingWindowLabel() {
-    if (session.window == null) return 'Custom';
-
-    return switch (session.window!) {
-      _ when session.window!.duration == const Duration(hours: 16) =>
-        '16:8 Intermittent',
-      _ when session.window!.duration == const Duration(hours: 18) =>
-        '18:6 Intermittent',
-      _ when session.window!.duration == const Duration(hours: 23) => 'OMAD',
-      _ => 'Custom',
-    };
-  }
+  String _getFastingWindowLabel() => switch (session.window!) {
+        FastingWindow.sixteenEight => '16:8 Intermittent',
+        FastingWindow.eighteenSix => '18:6 Intermittent',
+        FastingWindow.omad => 'OMAD'
+      };
 
   @override
   Widget build(BuildContext context) {
@@ -82,4 +75,3 @@ class FastingPlanCard extends StatelessWidget {
     );
   }
 }
-

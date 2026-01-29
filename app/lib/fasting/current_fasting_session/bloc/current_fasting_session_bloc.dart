@@ -69,9 +69,14 @@ class CurrentFastingSessionBloc
         limit: 1,
         isActive: true,
       );
-      final activeFastingSession = sessions.firstOrNull;
+      var activeFastingSession = sessions.firstOrNull;
 
       if (activeFastingSession != null) {
+        final fastingWindow = await _settingsRepo.getFastingWindow();
+
+        activeFastingSession =
+            activeFastingSession.copyWith(window: fastingWindow);
+
         final elapsed = DateTime.now().difference(activeFastingSession.start);
         _stopPreviewTimer();
         _startTicker(startFrom: elapsed);
