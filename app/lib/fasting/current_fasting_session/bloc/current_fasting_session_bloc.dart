@@ -101,13 +101,10 @@ class CurrentFastingSessionBloc
     final fastingWindow = await _settingsRepo.getFastingWindow();
 
     // Create fasting session in repository
-    final fastingSession = await _fastingRepo.createFastingSession(
+    final createdSession = await _fastingRepo.createFastingSession(
       started: DateTime.now(),
-    )
-      // ... and add the fasting window set in the settings
-      ..copyWith(
-        window: fastingWindow,
-      );
+    );
+    final fastingSession = createdSession.copyWith(window: fastingWindow);
 
     // Now create a notification for the fasting session
     final notification = await _notificationsRepository.createNotification(
@@ -116,9 +113,10 @@ class CurrentFastingSessionBloc
       scheduledAt: fastingSession.endsOn,
     );
 
-    // Update the fasting session with the created notification id
+    // Update the fasting session with the window and notification id
     final updatedFastingSession = await _fastingRepo.updateFastingSession(
       id: fastingSession.id!,
+      window: fastingWindow,
       notificationId: notification.id,
     );
 
