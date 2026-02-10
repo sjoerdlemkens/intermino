@@ -73,12 +73,12 @@ class LastFastsSection extends StatelessWidget {
                 ),
               );
             },
-            child: const Text(
+            child: Text(
               'View All Fasts',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: Color(0xFF4DB6AC), // primary green
+                color: Theme.of(context).primaryColor,
               ),
             ),
           ),
