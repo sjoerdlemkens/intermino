@@ -19,8 +19,8 @@ Future<void> main() async {
   final notificationsApi = DriftNotificationsApi(db: db);
   final settingsApi = SharedPrefsSettingsApi(sharedPrefs: sharedPrefs);
 
-  final notificationsService = await LocalNotificationsService()
-    ..initialize();
+  final notificationsService = LocalNotificationsService();
+  await notificationsService.initialize();
 
   runApp(
     App(

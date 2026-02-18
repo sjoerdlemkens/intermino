@@ -97,7 +97,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   ) async {
     final notificationEnabled = event.enabled;
 
-    _notificationsService.cancelAllNotifications();
+    await _notificationsService.cancelAllNotifications();
 
     if (notificationEnabled) {
       final futureNotifications =

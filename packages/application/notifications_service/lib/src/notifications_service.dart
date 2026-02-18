@@ -5,5 +5,5 @@ abstract class NotificationsService {
 
   Future<void> cancelNotification(int id);
 
-  void cancelAllNotifications();
+  Future<void> cancelAllNotifications();
 }

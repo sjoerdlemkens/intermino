@@ -75,7 +75,8 @@ class LocalNotificationsService implements NotificationsService {
   }
 
   /// Cancel all notifications
-  void cancelAllNotifications() {
-    _notifications.cancelAll();
+  @override
+  Future<void> cancelAllNotifications() async {
+    await _notifications.cancelAll();
   }
 }
