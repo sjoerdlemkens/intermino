@@ -101,19 +101,16 @@ class SettingsLoadedView extends StatelessWidget {
               child: SettingsListItem(
                 icon: Icons.notifications_outlined,
                 title: 'Enable Notifications',
-                trailing: Align(
-                  alignment: Alignment.centerRight,
-                  child: SizedBox(
-                    width: 50,
-                    height: 10,
-                    child: Switch(
-                      value: settings.notificationsEnabled,
-                      onChanged: (enabled) {
-                        context.read<SettingsBloc>().add(
-                              UpdateNotificationsEnabled(enabled),
-                            );
-                      },
-                    ),
+                trailing: SizedBox(
+                  width: 60,
+                  height: 32,
+                  child: Switch(
+                    value: settings.notificationsEnabled,
+                    onChanged: (enabled) {
+                      context.read<SettingsBloc>().add(
+                            UpdateNotificationsEnabled(enabled),
+                          );
+                    },
                   ),
                 ),
               ),
