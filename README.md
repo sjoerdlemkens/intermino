@@ -1,5 +1,5 @@
 <p align="center">
-<img src="assets/logo_banner.png" alt="Intermino" />
+<img src="assets/logo_banner.png" alt="Intermino" height="150px" />
 </p>
 
 <p align="center">
