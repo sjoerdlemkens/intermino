@@ -160,13 +160,17 @@ class CurrentFastingSessionBloc
 
     // Get fasting window from settings and update the session
     final fastingWindow = await _settingsRepo.getFastingWindow();
-    await _fastingRepo.updateFastingSession(
+    final fastingSession = await _fastingRepo.updateFastingSession(
       id: fastId,
       end: event.endTime,
       window: fastingWindow,
     );
 
-    await _notificationsRepository.deleteNotification(fastId);
+    // If it has a notification, cancel it
+    if (fastingSession.notificationId != null) {
+      await _notificationsRepository
+          .deleteNotification(fastingSession.notificationId!);
+    }
 
     _tickerSubscription?.cancel();
     _startPreviewTimer();
